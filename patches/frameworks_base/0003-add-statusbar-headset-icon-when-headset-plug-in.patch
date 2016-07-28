@@ -1,0 +1,143 @@
+From cbc0d9876cf17215387ff42cce80def8129a9e7d Mon Sep 17 00:00:00 2001
+From: dianlujitao <dianlujitao@gmail.com>
+Date: Sun, 1 Jun 2014 13:58:17 +0800
+Subject: [PATCH] add statusbar headset icon when headset plug in
+
+credits to syhost
+http://blog.csdn.net/syhost/article/details/24284773
+
+Change-Id: I00bd3b27df17dc80d847db84fabaf99aa7446935
+---
+ core/res/res/values/config.xml                     |    1 +
+ .../res/drawable-xhdpi/stat_sys_headset.png        |  Bin 0 -> 499 bytes
+ .../res/drawable-xhdpi/stat_sys_headset_mic.png    |  Bin 0 -> 1529 bytes
+ packages/SystemUI/res/values/strings.xml           |    2 ++
+ .../statusbar/phone/PhoneStatusBarPolicy.java      |   29 ++++++++++++++++++++
+ 5 files changed, 32 insertions(+)
+ create mode 100644 packages/SystemUI/res/drawable-xhdpi/stat_sys_headset.png
+ create mode 100644 packages/SystemUI/res/drawable-xhdpi/stat_sys_headset_mic.png
+
+diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
+index 0ab3264..79a113d 100644
+--- a/core/res/res/values/config.xml
++++ b/core/res/res/values/config.xml
+@@ -45,6 +45,7 @@
+        <item><xliff:g id="id">alarm_clock</xliff:g></item>
+        <item><xliff:g id="id">secure</xliff:g></item>
+        <item><xliff:g id="id">clock</xliff:g></item>
++       <item><xliff:g id="id">headset</xliff:g></item>
+     </string-array>
+ 
+     <!-- Flag indicating whether the surface flinger has limited
+diff --git a/packages/SystemUI/res/drawable-xhdpi/stat_sys_headset.png b/packages/SystemUI/res/drawable-xhdpi/stat_sys_headset.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f0ac4ac6e1c1de6c9ba875dbf27f8599b6d7106c
+GIT binary patch
+literal 499
+zcmeAS@N?(olHy`uVBq!ia0vp^IzVi|!3-p0{W2~CDVB6cUq=Rpjs4tz5?O(K#^NA%
+zCx&(BWL^R}bpbvhu0Z<#z=8Mc+9m;Apji^+7tEk?()jr<o}cSHR!=baGv~>c@cDrc
+zyF}a5IBmQ?D1N>-dFk6TPM5a3p1-{@x*MqJo~Mgrh{y4_Q%)8&8wju(DzqH@y)Rik
+z?$ZDN%?pM0csM=wT3TcDe#y&M%_hc66*4Y8F@5QCm~(Q$t;%)Vg4TIP```K2S6!BS
+zF}B=WJ=(=_%ZXFL<+^thnU5~j>SN7mnLX#>mOY`T^#lIdHQcki63si&f1Yz*gUmBK
+z%a*B(VIN*jPM#r|z$S0E^UZA60*|R17x{%Hhx=C9I~S+EP~8@@)@80w)_azwo~_F4
+zf#-Z~i9g-vxm6=OU9L%Hc8S8N=K7My{<VCQ0?&Ha-M96+)5t%y@4MLP<h5;Q-~X8R
+aldarE&2#U={vAM{GI+ZBxvX<aXaWF{xf(41
+
+literal 0
+HcmV?d00001
+
+diff --git a/packages/SystemUI/res/drawable-xhdpi/stat_sys_headset_mic.png b/packages/SystemUI/res/drawable-xhdpi/stat_sys_headset_mic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..5239c002855b2df7891ee31ae5b0f605ce0b9109
+GIT binary patch
+literal 1529
+zcmeAS@N?(olHy`uVBq!ia0vp^DnP8x!3-n=yrfuw6id3JuOkD)#(wTUiL5|AV{wqX
+z6T`Z5GA|hzm<$7aLR^7@|3|@S2oN0tKl<cf0~5`zk|4iehW8)1&b(n~WM(?Y^5@fy
+zrSZHS&o2IcDx30mW={ye#a(rtIcwWO?Uf44I36Af{;coZDEw**=aofY9%Zb#9LqP~
+z<oeBCm4J;qzlw?|8d>|i+nWDNrfMH+-h-p36#gk28au`;_<75H;*TTS)+ZcjKPdFP
+z)c@_rvsQuJtNPA&W;IDiXnEJPO1P{ONSnICwElIFq^-m16S_N&do7$+Fy-2E!MF`c
+zQIqyQu5Ebnee(o0jm4E0iYx9f`}R_`y4`(I2rvsQ@N{tuu{b?-N@)3Q2Z7e`Z7FGK
+zX*|Zp#-_Z+#X)(e&H%xN{p+@=9-pTCe9pVecXrQTbN8Yw^N0PXUtU;wM_4#->bZwY
+zSR&3TPBg1uCDJUQJ@?f0uC_UASXx%gPvJ<Y_^75{InhZ$@=CF1fagYY0ktKYw7Qpi
+zsqq#w<`;U(B+Z-arl7O;wcZ*TbC%||kEfi<KRR<vd>L6hB{HN?VZFnRD4}wWYYy8t
+zG_YH)a*YxHnK{A!xwv|q>znzHooDUWPzvh_FkHVRf4@Pj<@$zWQww$`wyw_ixzcOA
+zH_YKR8-v{KTh_j=o4&pK_n|xgb3=k@Ot{*A4lj`~_JiLy-O2y*MBwgI+27o0*J|W%
+zo>crMFTbCQ<H@19`*#KCF_<<M9Z1=H<ILOJJ7VQlFn)Mzw4xwVg}2A0?V`fQ9a;xI
+z<#V_RF057IKDl+7ic0g;q_eJ@+}_w5N>xl%c2&N(;p(J?QPD@-riWcWcv`h%eGapv
+zQHrp%y<M|7(;_$56pt1m>G=H(&v$o7U7Vz->y)Dt()3SqQJZ9DVQ#{*RF}Ws=QDhc
+z2`MNkj7@l95omAyWzFh#ftRy(-03uZ*%GVFc`{hHWm560qySlWzZ*?^CfxDKRaObx
+zU#gL2D^`0u(>-E&%F4o<cXpVj-#PY7qvVfIioiFCLQT`7bthGh+J21?mQ(T1R+m2{
+zV-hNFJ=sol>DN|;DEI0sS+~+{Cg>|YZTRT2BVgL%ceawhwNIG5Kl?_he2@0za}`xD
+z7tKtv;*-4-U-v^o@K<7_+y8GF+PhOFdY5HbRtLYSwE3{+^TpIIo7=TN=I)XDJ@+B|
+zrdO*&7M|BWu+Z*jhV=dN|6J3#tel>>#g^?`{2|Kv>kk>*i<A2jyQIH|h?hx39RGSd
+g<New_CYyfq8;f$V&k(o02h4E{p00i_>zopr0Oxk(KmY&$
+
+literal 0
+HcmV?d00001
+
+diff --git a/packages/SystemUI/res/values/strings.xml b/packages/SystemUI/res/values/strings.xml
+index e36ca8e..8d9732f 100644
+--- a/packages/SystemUI/res/values/strings.xml
++++ b/packages/SystemUI/res/values/strings.xml
+@@ -507,4 +507,6 @@
+          linebreak to position it correctly.  [CHAR LIMIT=45] -->
+     <string name="ssl_ca_cert_warning">Network may\nbe monitored</string>
+ 
++<string name="headset_enabled">Headset Enabled.</string>
++
+ </resources>
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarPolicy.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarPolicy.java
+index 6d39ea5..1675ef3 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarPolicy.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarPolicy.java
+@@ -103,6 +103,9 @@ public class PhoneStatusBarPolicy {
+             else if (action.equals(TtyIntent.TTY_ENABLED_CHANGE_ACTION)) {
+                 updateTTY(intent);
+             }
++            else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
++                updateHeadset(intent);
++            }
+         }
+     };
+ 
+@@ -119,6 +122,7 @@ public class PhoneStatusBarPolicy {
+         filter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
+         filter.addAction(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
+         filter.addAction(TtyIntent.TTY_ENABLED_CHANGE_ACTION);
++        filter.addAction(Intent.ACTION_HEADSET_PLUG);
+         mContext.registerReceiver(mIntentReceiver, filter, null, mHandler);
+ 
+         int numPhones = MSimTelephonyManager.getDefault().getPhoneCount();
+@@ -276,4 +280,29 @@ public class PhoneStatusBarPolicy {
+             mService.setIconVisibility("tty", false);
+         }
+     }
++
++    private final void updateHeadset(Intent intent) {
++        final String action = intent.getAction();
++        final int state = intent.getIntExtra("state", 4);
++        final int mic = intent.getIntExtra("microphone", 4);
++
++        switch (state) {
++        case 0:
++            try{
++                mService.setIconVisibility("headset", false);
++            } catch (Exception e) {
++                //Log.i("StatusBar Headset", "frist time to run");
++                }
++        break;
++        case 1:
++            if (mic == 1)
++                mService.setIcon("headset", R.drawable.stat_sys_headset_mic, 0,
++                    mContext.getResources().getString(R.string.headset_enabled));
++            else
++                mService.setIcon("headset", R.drawable.stat_sys_headset, 0,
++                    mContext.getResources().getString(R.string.headset_enabled));
++            mService.setIconVisibility("headset", true);
++        break;
++        }
++    }
+ }
+-- 
+1.7.9.5
+

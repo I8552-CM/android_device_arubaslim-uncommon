@@ -1,0 +1,3 @@
+#!/system/bin/sh
+# S-trace
+chmod 444 /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq

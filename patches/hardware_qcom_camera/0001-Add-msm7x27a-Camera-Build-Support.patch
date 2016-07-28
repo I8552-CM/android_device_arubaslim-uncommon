@@ -1,0 +1,35 @@
+From c0d6f0b173fc9b97d92e2855276b6cc313f1fbe7 Mon Sep 17 00:00:00 2001
+From: luca020400 <luca.stefani.ge1@gmail.com>
+Date: Fri, 31 Oct 2014 14:21:22 +0100
+Subject: [PATCH 1/1] Add msm7x27a Camera Build Support
+
+---
+ Android.mk   | 2 +-
+ CleanSpec.mk | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Android.mk b/Android.mk
+index f594646..b5e0238 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -1,7 +1,7 @@
+ ifeq ($(call my-dir),$(call project-path-for,qcom-camera))
+ 
+ ifneq ($(strip $(USE_DEVICE_SPECIFIC_CAMERA)),true)
+-ifneq ($(filter msm8960 msm8226 msm8974,$(TARGET_BOARD_PLATFORM)),)
++ifneq ($(filter msm8960 msm8226 msm7x27a msm8974,$(TARGET_BOARD_PLATFORM)),)
+   ifneq ($(USE_CAMERA_STUB),true)
+     ifneq ($(BUILD_TINY_ANDROID),true)
+       include $(call all-subdir-makefiles)
+diff --git a/CleanSpec.mk b/CleanSpec.mk
+index 2d5df0b..8eb8160 100644
+--- a/CleanSpec.mk
++++ b/CleanSpec.mk
+@@ -45,4 +45,5 @@
+ #$(call add-clean-step, rm -rf $(PRODUCT_OUT)/data/*)
+ 
+ $(call add-clean-step, find $(OUT_DIR) -name "camera.msm8960*" -print0 | xargs -0 rm -rf)
++$(call add-clean-step, find $(OUT_DIR) -name "camera.msm7x27a*" -print0 | xargs -0 rm -rf)
+ $(call add-clean-step, rm -f $(PRODUCT_OUT)/system/lib/hw/camera.*.so)
+-- 
+1.9.1

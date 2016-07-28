@@ -1,0 +1,31 @@
+From 6d0cf18732e8f079d3a74995e21f1db87fce0213 Mon Sep 17 00:00:00 2001
+From: remittor <remittor@gmail.com>
+Date: Mon, 7 Sep 2015 19:38:29 +0300
+Subject: [PATCH] Add menu "call_recording_format"
+
+---
+ res/xml/msim_call_feature_setting.xml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/res/xml/msim_call_feature_setting.xml b/res/xml/msim_call_feature_setting.xml
+index 671c5c8..8cf33f0 100644
+--- a/res/xml/msim_call_feature_setting.xml
++++ b/res/xml/msim_call_feature_setting.xml
+@@ -118,6 +118,14 @@
+                 android:targetClass="com.android.settings.Settings$BlacklistSettingsActivity" />
+     </PreferenceScreen>
+ 
++    <ListPreference
++            android:key="call_recording_format"
++            android:title="@string/call_recording_format"
++            android:summary="%s"
++            android:entries="@array/call_recording_encoder_entries"
++            android:entryValues="@array/call_recording_encoder_values"
++            android:persistent="false" />
++
+     <CheckBoxPreference
+             android:key="button_proximity_key"
+             android:title="@string/proximity_mode_title"
+-- 
+1.9.5.msysgit.0
+

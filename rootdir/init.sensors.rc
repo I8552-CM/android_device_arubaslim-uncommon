@@ -1,0 +1,44 @@
+
+on init
+
+chown system system /sys/class/compass/akm8975/delay_acc
+    chown system system /sys/class/compass/akm8975/delay_mag
+    chown system system /sys/class/compass/akm8975/delay_ori
+    chown system system /sys/class/compass/akm8975/enable_acc
+    chown system system /sys/class/compass/akm8975/enable_mag
+    chown system system /sys/class/compass/akm8975/enable_ori
+    chown system system /sys/class/compass/akm8975/accel
+    chown input system /sys/bus/i2c/devices/1-0039/enable_als_sensor
+    chown input system /sys/bus/i2c/devices/1-0039/enable_ps_sensor
+    chown input system /sys/bus/i2c/devices/1-0039/ps_sensor_thld
+    chown input system /sys/bus/i2c/devices/1-0039/als_poll_delay
+    chmod 0664 /sys/bus/i2c/devices/1-0039/enable_als_sensor
+    chmod 0664 /sys/bus/i2c/devices/1-0039/enable_ps_sensor
+    chmod 0664 /sys/bus/i2c/devices/1-0039/ps_sensor_thld
+    chmod 0664 /sys/bus/i2c/devices/1-0039/als_poll_delay
+    chown input  system /sys/devices/i2c-1/1-000f/enable
+    chmod 0664 /sys/devices/i2c-1/1-000f/enable
+    # Permissions for Sensors
+    chmod 0666  /dev/ltr559_ls
+    chmod 0666  /dev/ltr559_ps
+    #modify gsensor file node mode
+    chown root system /sys/class/input/input2/delay
+
+    chmod 0666 /dev/glanceview 
+    chmod 0666 /dev/gv_oneled
+
+
+service psensorCal /system/bin/psensorCal
+    class late_start
+    user root
+    oneshot
+
+service memopt_init /system/bin/memopt_init
+    class core
+    user root
+    group root
+    disabled
+    oneshot   
+
+on property:persist.service.zram.enable=1
+    start memopt_init

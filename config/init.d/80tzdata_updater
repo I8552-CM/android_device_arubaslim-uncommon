@@ -1,0 +1,18 @@
+#!/system/bin/sh
+system_path="/system/usr/share/zoneinfo/tzdata"
+data_path="/data/misc/zoneinfo/tzdata"
+
+if [ -f $data_path ]; then
+	system_tzdata="$(hexdump -s 6 -n 5 -e ' 5/1 "%_c" "\n" ' $system_path)"
+	data_tzdata="$(hexdump -s 6 -n 5 -e ' 5/1 "%_c" "\n" ' $data_path)"
+	system_version="$(hexdump -s 6 -n 5 -e ' 5/1 "%_c" "\n" ' $system_path|od|head -n 1|cut -d ' ' -f 2-|tr -d '\n ')"
+	data_version="$(hexdump -s 6 -n 5 -e ' 5/1 "%_c" "\n" ' $data_path|od|head -n 1|cut -d ' ' -f 2-|tr -d '\n ')"
+	if [ "$data_version" -lt "$system_version" ]; then 
+		log -t tzdata_updater "Updating $data_path ($data_tzdata) from $system_path ($system_tzdata)"
+		cp "$system_path" "$data_path"
+	else
+		log -t tzdata_updater "$data_path ($data_tzdata) is equal or newer than $system_path ($system_tzdata), aborting"
+	fi
+else
+	log -t tzdata_updater "$data_path not exist, aborting"
+fi
