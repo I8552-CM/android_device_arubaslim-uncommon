@@ -17,7 +17,7 @@
 $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_small.mk)
-
+OUT := out/target/product/delos3geur
 LOCAL_PATH := device/samsung/delos3geur
 
 DEVICE_PACKAGE_OVERLAYS := device/samsung/delos3geur/overlay
