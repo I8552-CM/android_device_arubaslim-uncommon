@@ -250,8 +250,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
    ro.fm.transmitter=false \
    ro.fm.mulinst.recording.support=false
 
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.adb.secure=0
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.secure=0
+ADDITIONAL_DEFAULT_PROPERTIES += ro.adb.secure=0
+ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
 
 PRODUCT_PROPERTY_OVERRIDES += \
   ro.use_data_netmgrd=true \
