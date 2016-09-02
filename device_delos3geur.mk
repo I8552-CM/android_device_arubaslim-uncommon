@@ -17,10 +17,10 @@
 $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_small.mk)
-OUT := out/target/product/delos3geur
-LOCAL_PATH := device/samsung/delos3geur
+OUT := out/target/product/arubaslim
+LOCAL_PATH := device/samsung/arubaslim
 
-DEVICE_PACKAGE_OVERLAYS := device/samsung/delos3geur/overlay
+DEVICE_PACKAGE_OVERLAYS := device/samsung/arubaslim/overlay
 
 PRODUCT_LOCALES := en_US
 PRODUCT_LOCALES += hdpi
@@ -65,11 +65,11 @@ PRODUCT_COPY_FILES += \
 
 # Files needed for recovery image
 PRODUCT_COPY_FILES += \
-device/samsung/delos3geur/recovery/sbin/charge_recovery:/recovery/root/sbin/charge_recovery \
-device/samsung/delos3geur/recovery/sbin/rmt_storage_recovery:/recovery/root/sbin/rmt_storage_recovery \
-device/samsung/delos3geur/recovery/sbin/rmt_oeminfo_recovery:/recovery/root/sbin/rmt_oeminfo_recovery \
-device/samsung/delos3geur/recovery/sbin/linker:/recovery/root/sbin/linker \
-device/samsung/delos3geur/recovery/sbin/charge.sh:/recovery/root/sbin/charge.sh 
+device/samsung/arubaslim/recovery/sbin/charge_recovery:/recovery/root/sbin/charge_recovery \
+device/samsung/arubaslim/recovery/sbin/rmt_storage_recovery:/recovery/root/sbin/rmt_storage_recovery \
+device/samsung/arubaslim/recovery/sbin/rmt_oeminfo_recovery:/recovery/root/sbin/rmt_oeminfo_recovery \
+device/samsung/arubaslim/recovery/sbin/linker:/recovery/root/sbin/linker \
+device/samsung/arubaslim/recovery/sbin/charge.sh:/recovery/root/sbin/charge.sh 
 
 # INIT.D Files
 PRODUCT_COPY_FILES += \
@@ -258,8 +258,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
   persist.data_netmgrd_nint=16 \
   persist.radio.apm_sim_not_pwdn=1  
 
-$(call inherit-product, vendor/samsung/delos3geur/common-vendor.mk)
-$(call inherit-product, vendor/samsung/delos3geur/delos3geur-vendor.mk)
+$(call inherit-product, vendor/samsung/arubaslim/common-vendor.mk)
+$(call inherit-product, vendor/samsung/arubaslim/arubaslim-vendor.mk)
 $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0

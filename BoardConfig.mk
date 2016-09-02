@@ -23,11 +23,11 @@
 
 # inherit from the proprietary version
 
-LOCAL_PATH := device/samsung/delos3geur/
+LOCAL_PATH := device/samsung/arubaslim/
 
--include device/samsung/delos3geur/kernel/Android.mk
+-include device/samsung/arubaslim/kernel/Android.mk
 
-TARGET_SPECIFIC_HEADER_PATH := device/samsung/delos3geur/include
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/arubaslim/include
 
 # cflags
 COMMON_GLOBAL_CFLAGS += -DQCOM_BSP_ABI_HACK -DUSE_MDP3
@@ -61,7 +61,7 @@ BOARD_USES_ADRENO_200 := true
 
 # Inline kernel building
 #TARGET_NO_KERNEL := true
-#TARGET_PREBUILT_KERNEL := vendor/samsung/delos3geur/delos3geur/kernel/zImage
+#TARGET_PREBUILT_KERNEL := vendor/samsung/arubaslim/arubaslim/kernel/zImage
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_USES_UNCOMPRESSED_KERNEL := false
@@ -74,7 +74,7 @@ BOARD_KERNEL_BASE := 0x00200000
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01300000
 BOARD_KERNEL_PAGESIZE := 4096
 ARCH_ARM_HAVE_TLS_REGISTER := true
-BOARD_EGL_CFG := device/samsung/delos3geur/config/egl.cfg
+BOARD_EGL_CFG := device/samsung/arubaslim/config/egl.cfg
 
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1228800000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 5443168000
@@ -106,13 +106,13 @@ TARGET_HAS_QACT := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/delos3geur/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/arubaslim/bluetooth
 
 # Dalvik
 TARGET_ARCH_LOWMEM := true
 
 # Hardware tunables framework
-BOARD_HARDWARE_CLASS := device/samsung/delos3geur/cmhw/
+BOARD_HARDWARE_CLASS := device/samsung/arubaslim/cmhw/
 
 # Display
 BOARD_USES_QCOM_HARDWARE := true
@@ -131,7 +131,7 @@ TARGET_ENABLE_AV_ENHANCEMENTS := false
 
 # SEPOLICY
 BOARD_SEPOLICY_DIRS := \
-       device/samsung/delos3geur/sepolicy
+       device/samsung/arubaslim/sepolicy
 
 BOARD_SEPOLICY_UNION := \
        device.te \
@@ -140,7 +140,7 @@ BOARD_SEPOLICY_UNION := \
 
 # EGL
 BOARD_EGL_WORKAROUND_BUG_10194508 := true
-BOARD_EGL_CFG := device/samsung/delos3geur/config/egl.cfg
+BOARD_EGL_CFG := device/samsung/arubaslim/config/egl.cfg
 
 # Media
 TARGET_QCOM_MEDIA_VARIANT := legacy
@@ -188,7 +188,7 @@ endif
 # RIL
 COMMON_GLOBAL_CFLAGS += -DRIL_SUPPORTS_SEEK
 COMMON_GLOBAL_CFLAGS += -DRIL_VARIANT_LEGACY
-BOARD_RIL_CLASS := ../../../device/samsung/delos3geur/ril/
+BOARD_RIL_CLASS := ../../../device/samsung/arubaslim/ril/
 
 DEVICE_RESOLUTION := 480x800
 
@@ -210,14 +210,14 @@ WIFI_EXT_MODULE_NAME := "cfg80211"
 WIFI_DRIVER_FW_PATH_PARAM := "/data/misc/wifi/fwpath"
 
 # Recovery # CWM
-BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/delos3geur/recovery/graphics.c
-TARGET_RECOVERY_FSTAB := device/samsung/delos3geur/rootdir/fstab.qcom
+BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/arubaslim/recovery/graphics.c
+TARGET_RECOVERY_FSTAB := device/samsung/arubaslim/rootdir/fstab.qcom
 DEVICE_RESOLUTION := 480x800 \
 BOARD_USE_CUSTOM_RECOVERY_FONT := "<font_15x40.h>"
 TARGET_BOOTLOADER_BOARD_NAME := msm7x27
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 BOARD_UMS_LUNFILE := /sys/class/android_usb/android0/f_mass_storage/lun%d/file
 BOARD_HAS_NO_SELECT_BUTTON := true
-TARGET_RECOVERY_INITRC := device/samsung/delos3geur/recovery/init.rc
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/delos3geur/recovery/recovery-keys.c
+TARGET_RECOVERY_INITRC := device/samsung/arubaslim/recovery/init.rc
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/arubaslim/recovery/recovery-keys.c
 

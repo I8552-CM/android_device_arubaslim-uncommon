@@ -6,13 +6,13 @@ TARGET_SCREEN_WIDTH := 480
 TARGET_SCREEN_HEIGHT := 800
 
 # Release name
-PRODUCT_RELEASE_NAME := delos3geur
-PRODUCT_NAME := cm_delos3geur
+PRODUCT_RELEASE_NAME := arubaslim
+PRODUCT_NAME := cm_arubaslim
 
-$(call inherit-product, device/samsung/delos3geur/full_delos3geur.mk)
+$(call inherit-product, device/samsung/arubaslim/full_arubaslim.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_BRAND=SAMSUNG \
-    PRODUCT_NAME=delos3geur \
-    BUILD_PRODUCT=delos3geur
+    PRODUCT_NAME=arubaslim \
+    BUILD_PRODUCT=arubaslim
 

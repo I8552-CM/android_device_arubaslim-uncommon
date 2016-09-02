@@ -1,2 +1,2 @@
-# SAMSUNG delos3geur
+# SAMSUNG arubaslim
 
