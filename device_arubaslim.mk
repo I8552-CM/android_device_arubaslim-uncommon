@@ -258,8 +258,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
   persist.data_netmgrd_nint=16 \
   persist.radio.apm_sim_not_pwdn=1  
 
-$(call inherit-product, vendor/samsung/delos3geur/common-vendor.mk)
-$(call inherit-product, vendor/samsung/delos3geur/arubaslim-vendor.mk)
+$(call inherit-product, vendor/samsung/arubaslim/common-vendor.mk)
+$(call inherit-product, vendor/samsung/arubaslim/arubaslim-vendor.mk)
 $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
