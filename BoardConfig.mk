@@ -71,7 +71,7 @@ BOARD_BATTERY_DEVICE_NAME := "battery"
 
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom loglevel=1 vmalloc=200M 
 BOARD_KERNEL_BASE := 0x00200000
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01300000
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01300000 --tags_offset 0x00000100
 BOARD_KERNEL_PAGESIZE := 4096
 ARCH_ARM_HAVE_TLS_REGISTER := true
 BOARD_EGL_CFG := device/samsung/arubaslim/config/egl.cfg
