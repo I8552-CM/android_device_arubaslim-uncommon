@@ -65,49 +65,52 @@ public class JSRQualcommRIL extends RIL implements CommandsInterface {
     static final int RIL_REQUEST_GET_DATA_SUBSCRIPTION  = 10121;   // deprecated
     static final int RIL_REQUEST_SET_SUBSCRIPTION_MODE  = 10122;
     
+    protected HandlerThread mIccThread;
+    protected IccHandler mIccHandler;
     protected String mAid;
     protected boolean mUSIM = false;
     protected String[] mLastDataIface = new String[20];
     boolean skipCdmaSubcription = needsOldRilFeature("skipCdmaSubcription");
+    
+    private final int RIL_INT_RADIO_OFF         = 0;
+    private final int RIL_INT_RADIO_UNAVAILABLE = 1;
+    private final int RIL_INT_RADIO_ON          = 2;
+    private final int RIL_INT_RADIO_ON_NG       = 10;
+    private final int RIL_INT_RADIO_ON_HTC      = 13;
 
     public JSRQualcommRIL(Context context, int networkMode, int cdmaSubscription) {        
         super(context, networkMode, cdmaSubscription);
+        mSetPreferredNetworkType = -1;
         mQANElements = 5;
         Rlog.w(RILJ_LOG_TAG, "[JSR] Create JSRQualcommRIL");
     }
 
     public JSRQualcommRIL(Context context, int networkMode, int cdmaSubscription, Integer instanceId) {
         super(context, networkMode, cdmaSubscription, instanceId);
+        mSetPreferredNetworkType = -1;
         mQANElements = 5;
         Rlog.w(RILJ_LOG_TAG, "[JSR] Create JSRQualcommRIL [" + instanceId + "]");
     }
 
 // ------------------------------------------------------------------------------------
     
-    public void reqNotSupported(Message result) {
-        if (result != null) {
-            CommandException ex = new CommandException(CommandException.Error.REQUEST_NOT_SUPPORTED);
-            AsyncResult.forMessage(result, null, ex);
-            result.sendToTarget();
-        }
-    }
- 
     @Override
     public void getCellInfoList(Message result) {
-        if (RILJ_LOGD) riljLog("[JSR] > getCellInfoList [NOT SUPPORTED] RIL_REQUEST_GET_CELL_INFO_LIST");
-        reqNotSupported(result);
+        if (RILJ_LOGD) riljLog("[JSR] > getCellInfoList [NOT SUPPORTED]");
+        //RILRequest rr = RILRequest.obtain(RIL_REQUEST_GET_CELL_INFO_LIST, result);
     }
 
     @Override
     public void setCellInfoListRate(int rateInMillis, Message response) {
-        if (RILJ_LOGD) riljLog("[JSR] > setCellInfoListRate [NOT SUPPORTED] RIL_REQUEST_SET_UNSOL_CELL_INFO_LIST_RATE");
-        reqNotSupported(response);
+        if (RILJ_LOGD) riljLog("[JSR] > setCellInfoListRate [NOT SUPPORTED]");
+        //RILRequest rr = RILRequest.obtain(RIL_REQUEST_SET_UNSOL_CELL_INFO_LIST_RATE, result);
     }
 
     @Override
-    public void setInitialAttachApn(String apn, String protocol, int authType, String username, String password, Message result) {
-        if (RILJ_LOGD) riljLog("[JSR] > setInitialAttachApn [NOT SUPPORTED] RIL_REQUEST_SET_INITIAL_ATTACH_APN");
-        reqNotSupported(result);
+    public void setInitialAttachApn(String apn, String protocol, int authType, String username,
+            String password, Message result) {
+        if (RILJ_LOGD) riljLog("[JSR] > setInitialAttachApn [NOT SUPPORTED]");
+        //RILRequest rr = RILRequest.obtain(RIL_REQUEST_SET_INITIAL_ATTACH_APN, null);
     }
     
 // ------------------------------------------------------------------------------------
@@ -265,6 +268,7 @@ public class JSRQualcommRIL extends RIL implements CommandsInterface {
             IccCardApplicationStatus application = cardStatus.mApplications[appIndex];
             mAid = application.aid;
             mUSIM = (application.app_type == IccCardApplicationStatus.AppType.APPTYPE_USIM);
+            mSetPreferredNetworkType = mPreferredNetworkType;
 
             if (TextUtils.isEmpty(mAid))
                mAid = "";
@@ -274,5 +278,222 @@ public class JSRQualcommRIL extends RIL implements CommandsInterface {
         return cardStatus;
     }
 
+// ------------------------------------------------------------------------------------
+    
+    @Override
+    protected void
+    processUnsolicited (Parcel p) {
+        Object ret;
+        int dataPosition = p.dataPosition(); // save off position within the Parcel
+        int response = p.readInt();
+
+        // Assume devices needing the "datacall" GB-compatibility flag are
+        // running GB RILs, so skip 1031-1034 for those
+        if (needsOldRilFeature("datacall")) {
+            switch(response) {
+                 case RIL_UNSOL_CDMA_SUBSCRIPTION_SOURCE_CHANGED:
+                 case RIL_UNSOl_CDMA_PRL_CHANGED:
+                 case RIL_UNSOL_EXIT_EMERGENCY_CALLBACK_MODE:
+                 case RIL_UNSOL_RIL_CONNECTED:
+                     if (RILJ_LOGD) riljLog("[JSR] processUnsolicited: SKIP req = " + responseToString(response) + " (" + response + ")");
+                     ret = responseVoid(p);
+                     return;
+            }
+        }
+
+        switch(response) {
+            case RIL_UNSOL_RESPONSE_RADIO_STATE_CHANGED: ret =  responseVoid(p); break;
+            case RIL_UNSOL_RIL_CONNECTED: ret = responseInts(p); break;
+            case RIL_UNSOL_EXIT_EMERGENCY_CALLBACK_MODE: ret = responseVoid(p); break;
+
+            default:
+                // Rewind the Parcel
+                p.setDataPosition(dataPosition);
+
+                // Forward responses that we are not overriding to the super class
+                super.processUnsolicited(p);
+                return;
+        }
+
+        if (RILJ_LOGD) riljLog("[JSR] processUnsolicited: req = " + responseToString(response) + " (" + response + ")");
+        
+        switch(response) {
+            case RIL_UNSOL_RESPONSE_RADIO_STATE_CHANGED:
+                int state = p.readInt();
+                setRadioStateFromRILInt(state);
+                break;
+
+            case RIL_UNSOL_RIL_CONNECTED:
+                if (RILJ_LOGD) unsljLogRet(response, ret);
+                // Initial conditions
+                setRadioPower(false, null);
+                setPreferredNetworkType(mPreferredNetworkType, null);
+                setCdmaSubscriptionSource(mCdmaSubscription, null);
+                notifyRegistrantsRilConnectionChanged(((int[])ret)[0]);
+                break;
+
+            case RIL_UNSOL_EXIT_EMERGENCY_CALLBACK_MODE:
+                if (RILJ_LOGD) unsljLogRet(response, ret);
+                if (mExitEmergencyCallbackModeRegistrants != null)
+                    mExitEmergencyCallbackModeRegistrants.notifyRegistrants(new AsyncResult (null, null, null));
+                break;
+        }
+    }
+
+    protected void
+    setRadioStateFromRILInt (int stateCode) {
+        CommandsInterface.RadioState radioState;
+        HandlerThread handlerThread;
+        Looper looper;
+        IccHandler iccHandler;
+
+        switch (stateCode) {
+            case RIL_INT_RADIO_OFF:
+                radioState = CommandsInterface.RadioState.RADIO_OFF;
+                Rlog.w(RILJ_LOG_TAG, "[JSR] set RIL_INT_RADIO_OFF");
+                if (mIccHandler != null) {
+                    mIccThread = null;
+                    mIccHandler = null;
+                }
+                break;
+            case RIL_INT_RADIO_UNAVAILABLE:
+                Rlog.w(RILJ_LOG_TAG, "[JSR] set RIL_INT_RADIO_UNAVAILABLE");
+                radioState = CommandsInterface.RadioState.RADIO_UNAVAILABLE;
+                break;
+            case RIL_INT_RADIO_ON:
+            case RIL_INT_RADIO_ON_NG:
+            case RIL_INT_RADIO_ON_HTC:
+                Rlog.w(RILJ_LOG_TAG, "[JSR] set RIL_INT_RADIO_ON");
+                if (mIccHandler == null) {
+                    handlerThread = new HandlerThread("IccHandler");
+                    mIccThread = handlerThread;
+
+                    mIccThread.start();
+
+                    looper = mIccThread.getLooper();
+                    mIccHandler = new IccHandler(this,looper);
+                    mIccHandler.run();
+                }
+                radioState = CommandsInterface.RadioState.RADIO_ON;
+                break;
+            default:
+                throw new RuntimeException("Unrecognized RIL_RadioState: " + stateCode);
+        }
+
+        setRadioState (radioState);
+    }
+    
+// ------------------------------------------------------------------------------------
+    
+    class IccHandler extends Handler implements Runnable {
+        private static final int EVENT_RADIO_ON = 1;
+        private static final int EVENT_ICC_STATUS_CHANGED = 2;
+        private static final int EVENT_GET_ICC_STATUS_DONE = 3;
+        private static final int EVENT_RADIO_OFF_OR_UNAVAILABLE = 4;
+
+        private RIL mRil;
+        private boolean mRadioOn = false;
+
+        public IccHandler (RIL ril, Looper looper) {
+            super (looper);
+            mRil = ril;
+        }
+
+        public void handleMessage (Message paramMessage) {
+            switch (paramMessage.what) {
+                case EVENT_RADIO_ON:
+                    mRadioOn = true;
+                    Log.d(LOG_TAG, "[JSR] Radio on -> Forcing sim status update");
+                    sendMessage(obtainMessage(EVENT_ICC_STATUS_CHANGED));
+                    break;
+
+                case EVENT_ICC_STATUS_CHANGED:
+                    if (mRadioOn) {
+                        Log.d(LOG_TAG, "[JSR] Received EVENT_ICC_STATUS_CHANGED, calling getIccCardStatus");
+                        mRil.getIccCardStatus(obtainMessage(EVENT_GET_ICC_STATUS_DONE, paramMessage.obj));
+                    } else {
+                        Log.d(LOG_TAG, "[JSR] Received EVENT_ICC_STATUS_CHANGED while radio is not ON. Ignoring");
+                    }
+                    break;
+                    
+                case EVENT_GET_ICC_STATUS_DONE:
+                    Rlog.w(RILJ_LOG_TAG, "[JSR] EVENT_GET_ICC_STATUS_DONE");
+                    AsyncResult asyncResult = (AsyncResult) paramMessage.obj;
+                    if (asyncResult.exception != null) {
+                        Log.e (LOG_TAG, "[JSR] IccCardStatusDone shouldn't return exceptions!", asyncResult.exception);
+                        break;
+                    }
+                    IccCardStatus status = (IccCardStatus) asyncResult.result;
+                    if (status.mApplications == null || status.mApplications.length == 0) {
+                        if (!mRil.getRadioState().isOn()) {
+                            break;
+                        }
+                        mRil.setRadioState(CommandsInterface.RadioState.RADIO_ON);
+                    } else {
+                        int appIndex = -1;
+                        if (mPhoneType == RILConstants.CDMA_PHONE && status.mCdmaSubscriptionAppIndex >= 0) {
+                            appIndex = status.mCdmaSubscriptionAppIndex;
+                            Log.d(LOG_TAG, "[JSR] This is a CDMA PHONE: " + appIndex);
+                        } else {
+                            appIndex = status.mGsmUmtsSubscriptionAppIndex;
+                            Log.d(LOG_TAG, "[JSR] This is a GSM PHONE: " + appIndex);
+                            if (appIndex < 0) appIndex = 0;  // fixme
+                        }
+
+                        IccCardApplicationStatus application = status.mApplications[appIndex];
+                        IccCardApplicationStatus.AppState app_state = application.app_state;
+                        IccCardApplicationStatus.AppType app_type = application.app_type;
+
+                        switch (app_state) {
+                            case APPSTATE_PIN:
+                            case APPSTATE_PUK:
+                                switch (app_type) {
+                                    case APPTYPE_SIM:
+                                    case APPTYPE_USIM:
+                                    case APPTYPE_RUIM:
+                                        mRil.setRadioState(CommandsInterface.RadioState.RADIO_ON);
+                                        break;
+                                    default:
+                                        Log.e(LOG_TAG, "[JSR] Currently we don't handle SIMs of type: " + app_type);
+                                        return;
+                                }
+                                break;
+                            case APPSTATE_READY:
+                                switch (app_type) {
+                                    case APPTYPE_SIM:
+                                    case APPTYPE_USIM:
+                                    case APPTYPE_RUIM:
+                                        mRil.setRadioState(CommandsInterface.RadioState.RADIO_ON);
+                                        break;
+                                    default:
+                                        Log.e(LOG_TAG, "[JSR] Currently we don't handle SIMs of type: " + app_type);
+                                        return;
+                                }
+                                break;
+                            default:
+                                return;
+                        }
+                    }
+                    break;
+                    
+                case EVENT_RADIO_OFF_OR_UNAVAILABLE:
+                    Rlog.w(RILJ_LOG_TAG, "[JSR] EVENT_RADIO_OFF_OR_UNAVAILABLE");
+                    mRadioOn = false;
+                    // disposeCards(); // to be verified;
+                    break;
+                    
+                default:
+                    Log.e(LOG_TAG, "[JSR] Unknown Event " + paramMessage.what);
+                    break;
+            }
+        }
+
+        public void run () {
+            mRil.registerForIccStatusChanged(this, EVENT_ICC_STATUS_CHANGED, null);
+            Message msg = obtainMessage(EVENT_RADIO_ON);
+            mRil.getIccCardStatus(msg);
+        }
+    }
+ 
 }
 

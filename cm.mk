@@ -6,13 +6,13 @@ TARGET_SCREEN_WIDTH := 480
 TARGET_SCREEN_HEIGHT := 800
 
 # Release name
-PRODUCT_RELEASE_NAME := arubaslim
-PRODUCT_NAME := cm_arubaslim
+PRODUCT_RELEASE_NAME := I8552
+PRODUCT_NAME := cm_i8552
 
-$(call inherit-product, device/samsung/arubaslim/full_arubaslim.mk)
+$(call inherit-product, device/samsung/i8552/full_samsung.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_BRAND=SAMSUNG \
-    PRODUCT_NAME=arubaslim \
-    BUILD_PRODUCT=arubaslim
+    PRODUCT_NAME=msm8625 \
+    BUILD_PRODUCT=msm8625
 

@@ -1,7 +1,7 @@
 /* include/linux/msm_mdp.h
  *
  * Copyright (C) 2007 Google Incorporated
- * Copyright (c) 2012 Code Aurora Forum. All rights reserved.
+ * Copyright (c) 2012 The Linux Foundation. All rights reserved.
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -71,8 +71,6 @@
 #define MSMFB_OVERLAY_VSYNC_CTRL _IOW(MSMFB_IOCTL_MAGIC, 160, unsigned int)
 #define MSMFB_VSYNC_CTRL  _IOW(MSMFB_IOCTL_MAGIC, 161, unsigned int)
 #define MSMFB_METADATA_SET  _IOW(MSMFB_IOCTL_MAGIC, 162, struct msmfb_metadata)
-#define MSMFB_OVERLAY_COMMIT      _IOW(MSMFB_IOCTL_MAGIC, 163, unsigned int)
-
 #define FB_TYPE_3D_PANEL 0x10101010
 #define MDP_IMGTYPE2_START 0x10000
 #define MSMFB_DRIVER_VERSION	0xF9E8D701
@@ -140,6 +138,7 @@ enum {
 #define MDP_DITHER 0x8
 #define MDP_BLUR 0x10
 #define MDP_BLEND_FG_PREMULT 0x20000
+#define MDP_IS_FG 0x40000
 #define MDP_DEINTERLACE 0x80000000
 #define MDP_SHARPENING  0x40000000
 #define MDP_NO_DMA_BARRIER_START	0x20000000
@@ -483,42 +482,29 @@ struct msmfb_mdp_pp {
 	} data;
 };
 
-enum {
-	metadata_op_none,
-	metadata_op_base_blend,
-	metadata_op_max
-};
 
-struct mdp_blend_cfg {
-	uint32_t is_premultiplied;
-};
-
-struct msmfb_metadata {
-	uint32_t op;
-	uint32_t flags;
-	union {
-		struct mdp_blend_cfg blend_cfg;
-	} data;
-};
 struct mdp_page_protection {
 	uint32_t page_protection;
 };
 
-
-#ifdef CONFIG_FB_AUTO_CABC
-enum cabc_mode {
-    CABC_MODE_OFF,
-    CABC_MODE_UI,
-    CABC_MODE_STILL,
-    CABC_MODE_MOVING,
+enum {
+  metadata_op_none,
+  metadata_op_base_blend,
+  metadata_op_max
+};
+  
+struct mdp_blend_cfg {
+  uint32_t is_premultiplied;
 };
 
-struct msmfb_cabc_config {
-    uint32_t mode;
-    uint32_t dimming_on;
-    uint32_t mov_det_on;
+struct msmfb_metadata {
+  uint32_t op;
+  uint32_t flags;
+  union {
+    struct mdp_blend_cfg blend_cfg;
+  } data;
 };
-#endif
+
 struct mdp_mixer_info {
 	int pndx;
 	int pnum;

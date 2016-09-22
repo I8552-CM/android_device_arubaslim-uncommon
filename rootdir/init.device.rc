@@ -33,10 +33,42 @@ on init
 on boot
    start qcamerasvr
    #start gpu_dcvsd
-   start psensorCal
 
 service rmt_storage /system/bin/rmt_storage /dev/block/mmcblk0p9 /dev/block/mmcblk0p10 /dev/block/mmcblk0p14
     class core
+
+service gps_check /system/bin/gps_check
+    class main
+    user root
+    group root
+    oneshot
+
+service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
+    class late_start
+    disabled
+    user root
+
+#service thermald /system/bin/thermald
+#    class late_start
+#    user root
+#    group root
+
+service gpu_dcvsd /system/bin/gpu_dcvsd
+    class late_start
+    user root
+    oneshot
+
+service qmiproxy /system/bin/qmiproxy
+    class core
+    user radio
+    group radio audio bluetooth gps qcom_diag
+
+service fm_dl /system/bin/sh /system/etc/init.qcom.fm.sh
+    class late_start
+    user root
+    group system qcom_oncrpc
+    disabled
+    oneshot
 
 service hostapd /system/bin/hostapd -dddd /data/misc/wifi/hostapd.conf
     class late_start
@@ -67,40 +99,35 @@ service p2p_supplicant /system/bin/wpa_supplicant -ddd \
     disabled
     oneshot
 
-service wlan_detect /system/bin/wlan_detect
-    class main
-    user root
-    group root
+service dhcpcd_bt-pan /system/bin/dhcpcd -BKLG
+    class late_start
+    disabled
     oneshot
 
-service gps_check /system/bin/gps_check
-    class main
-    user root
-    group root
+service iprenew_bt-pan /system/bin/dhcpcd -n
+    class late_start
+    disabled
     oneshot
 
-service akm8963 /system/bin/akmd8963
+service dhcpcd_wlan0 /system/bin/dhcpcd -BKLG
     class main
     disabled
     oneshot
 
-service compassd /system/bin/compassd
+service iprenew_wlan0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
 
-service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
-    class late_start
-    user root
-
-service gpu_dcvsd /system/bin/gpu_dcvsd
-    class late_start
-    user root
-    oneshot
-
-service fm_dl /system/bin/sh /system/etc/init.qcom.fm.sh
-    class late_start
-    user root
-    group system qcom_oncrpc
+service dhcpcd_p2p /system/bin/dhcpcd -BKLG
+    class main
     disabled
     oneshot
+
+service iprenew_p2p /system/bin/dhcpcd -n p2p
+    class main
+    disabled
+    oneshot
+
+on property:init.svc.wpa_supplicant=stopped
+    stop dhcpcd
