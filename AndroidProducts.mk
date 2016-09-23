@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_samsung.mk
+    $(LOCAL_DIR)/full_arubaslim.mk

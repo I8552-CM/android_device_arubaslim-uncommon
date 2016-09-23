@@ -9,8 +9,8 @@ ANDROID_BUILD_TOP=`pwd`
 ICU_BIN=$ANDROID_BUILD_TOP/prebuilts/misc/linux-x86_64/icu-$ICU_VERSION
 ICU4C_DIR=$ANDROID_BUILD_TOP/external/icu4c
 ICU_DAT=$ICU4C_DIR/stubdata/icudt${ICU_VERSION}l-all.dat
-DATA_DIR=$ANDROID_BUILD_TOP/device/samsung/i8552/icu
-TEMP_DIR=$ANDROID_BUILD_TOP/device/samsung/i8552/_tmp
+DATA_DIR=$ANDROID_BUILD_TOP/device/samsung/arubaslim/icu
+TEMP_DIR=$ANDROID_BUILD_TOP/device/samsung/arubaslim/_tmp
 
 if grep -q "Belarus Standard Time" $ICU_DAT
 then

@@ -26,11 +26,11 @@
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Inherit from xt1058 device
-$(call inherit-product, device/samsung/i8552/device_samsung.mk)
+$(call inherit-product, device/samsung/arubaslim/device_arubaslim.mk)
 
 ## Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := i8552
-PRODUCT_NAME := full_samsung
-PRODUCT_BRAND := samsung
-PRODUCT_MODEL := SAMSUNG I-8552
+PRODUCT_DEVICE := arubaslim
+PRODUCT_NAME := full_arubaslim
+PRODUCT_BRAND := arubaslim
+PRODUCT_MODEL := GT-I8626
 PRODUCT_MANUFACTURER := samsung

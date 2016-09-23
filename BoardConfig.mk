@@ -23,11 +23,11 @@
 
 # inherit from the proprietary version
 
-LOCAL_PATH := device/samsung/i8552
+LOCAL_PATH := device/samsung/arubaslim
 
--include device/samsung/i8552/kernel/Android.mk
+-include device/samsung/arubaslim/kernel/Android.mk
 
-TARGET_SPECIFIC_HEADER_PATH := device/samsung/i8552/include
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/arubaslim/include
 
 # cflags
 COMMON_GLOBAL_CFLAGS += -DQCOM_BSP -DQCOM_HARDWARE
@@ -61,8 +61,8 @@ BOARD_USES_ADRENO_200 := true
 DISABLE_DEXPREOPT := true
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/i8552_l/android_kernel_msm7x27a
-TARGET_KERNEL_CONFIG := i8552_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/arubaslim
+TARGET_KERNEL_CONFIG := arubaslim_defconfig
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00200000
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01300000
@@ -76,14 +76,14 @@ TARGET_USES_UNCOMPRESSED_KERNEL := false
 BOARD_WANTS_EMMC_BOOT := true
 
 # Charger
-BOARD_CHARGER_RES := device/samsung/i8552/charger
+BOARD_CHARGER_RES := device/samsung/arubaslim/charger
 BOARD_BATTERY_DEVICE_NAME := "battery"
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_LPM_BOOT_ARGUMENT_NAME := androidboot.bootchg
 BOARD_LPM_BOOT_ARGUMENT_VALUE := true
 
 ARCH_ARM_HAVE_TLS_REGISTER := true
-BOARD_EGL_CFG := device/samsung/i8552/config/egl.cfg
+BOARD_EGL_CFG := device/samsung/arubaslim/config/egl.cfg
 
 BOARD_CACHEIMAGE_PARTITION_SIZE := 41943040
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
@@ -121,7 +121,7 @@ BOARD_HAVE_BLUETOOTH_CSR := true
 TARGET_ARCH_LOWMEM := true
 
 # Hardware tunables framework
-BOARD_HARDWARE_CLASS := device/samsung/i8552/cmhw/
+BOARD_HARDWARE_CLASS := device/samsung/arubaslim/cmhw/
 
 # Display
 TARGET_QCOM_DISPLAY_VARIANT := legacy
@@ -148,7 +148,7 @@ TARGET_ENABLE_AV_ENHANCEMENTS := false
 
 # SEPOLICY
 BOARD_SEPOLICY_DIRS := \
-       device/samsung/i8552/sepolicy
+       device/samsung/arubaslim/sepolicy
 
 BOARD_SEPOLICY_UNION := \
        device.te \
@@ -157,7 +157,7 @@ BOARD_SEPOLICY_UNION := \
 
 # EGL
 BOARD_EGL_WORKAROUND_BUG_10194508 := true
-BOARD_EGL_CFG := device/samsung/i8552/config/egl.cfg
+BOARD_EGL_CFG := device/samsung/arubaslim/config/egl.cfg
 HWUI_COMPILE_FOR_PERF := true
 
 # Media
@@ -204,7 +204,7 @@ PRODUCT_PREBUILT_WEBVIEWCHROMIUM := yes
 TARGET_FORCE_CPU_UPLOAD := true
 
 # RIL
-BOARD_RIL_CLASS := ../../../device/samsung/i8552/ril/
+BOARD_RIL_CLASS := ../../../device/samsung/arubaslim/ril/
 COMMON_GLOBAL_CFLAGS += -DRIL_SUPPORTS_SEEK
 COMMON_GLOBAL_CFLAGS += -DRIL_VARIANT_LEGACY
 
@@ -212,7 +212,7 @@ DEVICE_RESOLUTION := 480x800
 
 # Wi-Fi
 BOARD_WLAN_DEVICE := ath6kl
-TARGET_CUSTOM_WIFI := ../../device/samsung/i8552/libhardware_legacy/wifi/wifi.c
+TARGET_CUSTOM_WIFI := ../../device/samsung/arubaslim/libhardware_legacy/wifi/wifi.c
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 WIFI_DRIVER_IFACE_NAME := "wlan"
@@ -228,14 +228,14 @@ WIFI_DRIVER_MODULE_ARG := "suspend_mode=3 wow_mode=2 ath6kl_p2p=1 recovery_enabl
 WIFI_DRIVER_FW_PATH_PARAM := "/data/misc/wifi/fwpath"
 
 # Recovery # CWM
-BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/i8552/recovery/graphics.c
-TARGET_RECOVERY_FSTAB := device/samsung/i8552/recovery/recovery.fstab
+BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/arubaslim/recovery/graphics.c
+TARGET_RECOVERY_FSTAB := device/samsung/arubaslim/recovery/recovery.fstab
 DEVICE_RESOLUTION := 4800x800 \
 BOARD_USE_CUSTOM_RECOVERY_FONT := "<font_15x40.h>"
 TARGET_BOOTLOADER_BOARD_NAME := msm7x27
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 BOARD_UMS_LUNFILE := /sys/class/android_usb/android0/f_mass_storage/lun%d/file
 BOARD_HAS_NO_SELECT_BUTTON := true
-TARGET_RECOVERY_INITRC := device/samsung/i8552/recovery/init.rc
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/i8552/recovery/recovery-keys.c
+TARGET_RECOVERY_INITRC := device/samsung/arubaslim/recovery/init.rc
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/arubaslim/recovery/recovery-keys.c
 

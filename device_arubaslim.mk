@@ -18,9 +18,9 @@ $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_small.mk)
 
-LOCAL_PATH := device/samsung/i8552
+LOCAL_PATH := device/samsung/arubaslim
 
-DEVICE_PACKAGE_OVERLAYS := device/samsung/i8552/overlay
+DEVICE_PACKAGE_OVERLAYS := device/samsung/arubaslim/overlay
 
 PRODUCT_LOCALES := ru_RU
 PRODUCT_LOCALES += hdpi
@@ -29,9 +29,9 @@ PRODUCT_AAPT_PREF_CONFIG := hdpi
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 # Config Files
-PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/samsung/i8552/system,system)
+PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/samsung/arubaslim/system,system)
 
-PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/samsung/i8552/rootdir,root)
+PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,device/samsung/arubaslim/rootdir,root)
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
@@ -288,8 +288,8 @@ $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
 
 ## Misc files
 PRODUCT_COPY_FILES += \
-    device/samsung/i8552/system/lib/liboncrpc.so:obj/lib/liboncrpc.so \
-    device/samsung/i8552/system/lib/libnv.so:obj/lib/libnv.so
+    device/samsung/arubaslim/system/lib/liboncrpc.so:obj/lib/liboncrpc.so \
+    device/samsung/arubaslim/system/lib/libnv.so:obj/lib/libnv.so
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_MANUFACTURER := Samsung
