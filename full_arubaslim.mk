@@ -32,5 +32,5 @@ $(call inherit-product, device/samsung/arubaslim/device_arubaslim.mk)
 PRODUCT_DEVICE := arubaslim
 PRODUCT_NAME := full_arubaslim
 PRODUCT_BRAND := arubaslim
-PRODUCT_MODEL := GT-I8626
+PRODUCT_MODEL := GT-I8262
 PRODUCT_MANUFACTURER := samsung
