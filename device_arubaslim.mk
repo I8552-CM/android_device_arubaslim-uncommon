@@ -284,7 +284,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	dalvik.vm.heapidealfree=8388608 \
 	dalvik.vm.heapconcurrentstart=2097152
 
-$(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
+$(shell mkdir -p $(pwd)out/target/product/arubaslim/obj/KERNEL_OBJ/usr)
 
 ## Misc files
 PRODUCT_COPY_FILES += \

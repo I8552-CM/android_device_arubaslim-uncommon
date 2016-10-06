@@ -61,13 +61,12 @@ BOARD_USES_ADRENO_200 := true
 DISABLE_DEXPREOPT := true
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/samsung/arubaslim
+TARGET_KERNEL_SOURCE := kernel/samsung/msm7x27a
 TARGET_KERNEL_CONFIG := arubaslim_defconfig
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00200000
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01300000
 BOARD_KERNEL_PAGESIZE := 4096
-KERNEL_TOOLCHAIN_PREFIX := $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-linux-gnueabi-linaro_4.7.4-2014.06/bin/arm-eabi-
 #KERNEL_TOOLCHAIN_PREFIX := $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-eabi-4.9/bin/arm-eabi-
 
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -229,7 +228,7 @@ WIFI_DRIVER_FW_PATH_PARAM := "/data/misc/wifi/fwpath"
 
 # Recovery # CWM
 BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/arubaslim/recovery/graphics.c
-TARGET_RECOVERY_FSTAB := device/samsung/arubaslim/recovery/recovery.fstab
+TARGET_RECOVERY_FSTAB := device/samsung/arubaslim/rootdir/fstab.qcom
 DEVICE_RESOLUTION := 4800x800 \
 BOARD_USE_CUSTOM_RECOVERY_FONT := "<font_15x40.h>"
 TARGET_BOOTLOADER_BOARD_NAME := msm7x27
