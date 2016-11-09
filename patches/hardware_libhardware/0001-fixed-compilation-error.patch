@@ -1,0 +1,28 @@
+From 423b923e600a930248445236413784dd41542fbc Mon Sep 17 00:00:00 2001
+From: Mujeeb <iammujeebul@gmail.com>
+Date: Wed, 9 Nov 2016 12:32:14 +0530
+Subject: [PATCH] fixed compilation error
+
+Change-Id: I5041390135d8c7bac7aa91d9fe5671e8ecbbba10
+---
+ include/hardware/audio.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/include/hardware/audio.h b/include/hardware/audio.h
+index 190a4d8..e2324d5 100644
+--- a/include/hardware/audio.h
++++ b/include/hardware/audio.h
+@@ -561,8 +561,9 @@ static inline size_t audio_stream_frame_size(const struct audio_stream *s)
+             chan_samp_sz = sizeof(int8_t);
+             break;
+         }
+-        return popcount(chan_mask) * chan_samp_sz;
++
+     }
++        return popcount(chan_mask) * chan_samp_sz;
+ #else
+     audio_format_t format = s->get_format(s);
+ 
+-- 
+2.10.2
+
