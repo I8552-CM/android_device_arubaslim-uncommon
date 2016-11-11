@@ -1,0 +1,26 @@
+From 0ed0939a48b7cdd1dd000437ea1bd0d2bf0b9e50 Mon Sep 17 00:00:00 2001
+From: The Prezident <theprezident1@gmail.com>
+Date: Fri, 11 Nov 2016 22:35:16 +0530
+Subject: [PATCH] remove qcom_bsp
+
+Change-Id: Id13f5346cf70788fa0fc30089a86f6cdb53e8154
+---
+ minui/Android.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/minui/Android.mk b/minui/Android.mk
+index d0b8999..e695703 100644
+--- a/minui/Android.mk
++++ b/minui/Android.mk
+@@ -18,7 +18,7 @@ ifeq ($(call is-vendor-board-platform,QCOM),true)
+ endif
+ 
+ ifeq ($(TARGET_USES_QCOM_BSP), true)
+-    LOCAL_CFLAGS += -DMSM_BSP
++
+ endif
+ 
+ LOCAL_MODULE := libminui
+-- 
+2.10.2
+
