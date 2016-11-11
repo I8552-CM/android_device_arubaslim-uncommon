@@ -229,7 +229,7 @@ WIFI_DRIVER_FW_PATH_PARAM := "/data/misc/wifi/fwpath"
 
 # Recovery # CWM
 #BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/arubaslim/recovery/graphics.c
-TARGET_RECOVERY_FSTAB := device/samsung/arubaslim/rootdir/recovery.fstab
+TARGET_RECOVERY_FSTAB := device/samsung/arubaslim/rootdir/fstab.qcom
 DEVICE_RESOLUTION := 4800x800 \
 BOARD_USE_CUSTOM_RECOVERY_FONT := "<font_15x40.h>"
 TARGET_BOOTLOADER_BOARD_NAME := msm7x27
