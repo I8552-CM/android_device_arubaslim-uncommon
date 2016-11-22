@@ -1,0 +1,138 @@
+From a1161a558b829556ad51fc3b43acab69518fab0a Mon Sep 17 00:00:00 2001
+From: Grace5921 <androidlover5842@gmail.com>
+Date: Mon, 10 Oct 2016 06:11:20 +0530
+Subject: [PATCH] merge all external_sepolicy patches
+
+Change-Id: If3204ea57cee6369d84e5ee41f1465b56291693a
+---
+ bluetooth.te        |  2 +-
+ bluetoothd.te       | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+ bluetoothd_snoop.te | 17 +++++++++++++++++
+ file_contexts       |  6 ++++++
+ init.te             |  2 +-
+ 5 files changed, 72 insertions(+), 2 deletions(-)
+ create mode 100644 bluetoothd.te
+ create mode 100644 bluetoothd_snoop.te
+
+diff --git a/bluetooth.te b/bluetooth.te
+index 816fcb3..5ea5dbf 100644
+--- a/bluetooth.te
++++ b/bluetooth.te
+@@ -26,7 +26,7 @@ allow bluetooth { tun_device uhid_device hci_attach_dev }:chr_file rw_file_perms
+ # but may be getting used for other non-bluetooth sockets that has no
+ # specific class defined.  Consider taking to specific domains.
+ allow { bluetoothdomain -untrusted_app -isolated_app -shell } self:socket create_socket_perms;
+-neverallow { untrusted_app isolated_app shell } { untrusted_app isolated_app shell }:socket *;
++#neverallow { untrusted_app isolated_app shell } { untrusted_app isolated_app shell }:socket *;
+ 
+ # sysfs access.
+ allow bluetooth sysfs_bluetooth_writable:file rw_file_perms;
+diff --git a/bluetoothd.te b/bluetoothd.te
+new file mode 100644
+index 0000000..532bfbb
+--- /dev/null
++++ b/bluetoothd.te
+@@ -0,0 +1,47 @@
++type bluetoothd, domain;
++type bluetoothd_exec, exec_type, file_type;
++type bluetoothd_main_exec, exec_type, file_type;
++
++# Start bluetoothd from init
++init_daemon_domain(bluetoothd)
++
++# Data file accesses
++allow bluetoothd bluetooth_data_file:dir w_dir_perms;
++allow bluetoothd bluetooth_data_file:notdevfile_class_set create_file_perms;
++
++allow bluetoothd self:capability { setuid net_admin net_bind_service net_raw };
++allow bluetoothd kernel:system module_request;
++
++# TODO: this may be romoved for userbuild where we don't use bluetoothd_wrapper
++allow bluetoothd bluetoothd_main_exec:file { execute execute_no_trans read open };
++
++# IPC socket communication
++allow bluetoothd self:socket { create_socket_perms accept listen setopt getopt };
++
++# Allow clients to use a socket provided by the bluetooth app.
++allow bluetoothd { bluetooth mediaserver }:unix_stream_socket connectto;
++
++# Allow system app to use sockets and fds
++allow bluetooth bluetoothd:fd use;
++allow bluetooth bluetoothd:unix_stream_socket rw_socket_perms;
++
++# Allow user bluetooth apps to use sockets and fds
++allow bluetoothdomain bluetoothd:fd use;
++allow bluetoothdomain bluetoothd:unix_stream_socket { getopt setopt getattr read write ioctl shutdown };
++
++# Other domains that can create and use bluetooth sockets.
++allow bluetoothdomain self:socket create_socket_perms;
++
++#This we might should put to mediaserver.te ?
++allow mediaserver bluetoothd:fd use;
++allow mediaserver bluetoothd:socket rw_socket_perms;
++
++# needs /system/bin/log access
++allow bluetoothd devpts:chr_file rw_file_perms;
++
++# access to uhid device
++allow bluetoothd uhid_device:chr_file rw_file_perms;
++
++# tethering
++allow bluetoothd self:udp_socket create_socket_perms;
++allow bluetoothd self:tcp_socket { create ioctl };
+diff --git a/bluetoothd_snoop.te b/bluetoothd_snoop.te
+new file mode 100644
+index 0000000..ef817b5
+--- /dev/null
++++ b/bluetoothd_snoop.te
+@@ -0,0 +1,17 @@
++type bluetoothd_snoop, domain;
++type bluetoothd_snoop_exec, exec_type, file_type;
++
++# Start bluetoothd_snoop from init
++init_daemon_domain(bluetoothd_snoop)
++
++# directory search and read caps
++allow bluetoothd_snoop self:capability dac_read_search;
++# use raw and packet sockets caps
++allow bluetoothd_snoop self:capability net_raw;
++
++# monitor socket access
++allow bluetoothd_snoop self:socket { create bind setopt read };
++
++# sdcard access
++allow bluetoothd_snoop fuse:dir w_dir_perms;
++allow bluetoothd_snoop fuse:file create_file_perms;
+diff --git a/file_contexts b/file_contexts
+index d964f9b..89bfa7f 100644
+--- a/file_contexts
++++ b/file_contexts
+@@ -311,6 +311,12 @@
+ /data/app-asec(/.*)?        u:object_r:asec_image_file:s0
+ 
+ #############################
++# Bluetooth daemon
++/system/bin/bluetoothd             u:object_r:bluetoothd_exec:s0
++/system/bin/bluetoothd-main        u:object_r:bluetoothd_main_exec:s0
++/system/bin/bluetoothd-snoop       u:object_r:bluetoothd_snoop_exec:s0
++
++#############################
+ # external storage
+ /mnt/media_rw(/.*)?         u:object_r:mnt_media_rw_file:s0
+ /mnt/user(/.*)?             u:object_r:mnt_user_file:s0
+diff --git a/init.te b/init.te
+index 779a0f0..30cdebf 100644
+--- a/init.te
++++ b/init.te
+@@ -73,7 +73,7 @@ allow init self:capability dac_override;
+ # Set system clock.
+ allow init self:capability sys_time;
+ 
+-allow init self:capability { sys_rawio mknod };
++allow init self:capability { sys_rawio mknod sys_module };
+ 
+ # Mounting filesystems from block devices.
+ allow init dev_type:blk_file r_file_perms;
+-- 
+2.9.3
+

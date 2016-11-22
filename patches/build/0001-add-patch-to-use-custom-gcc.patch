@@ -1,0 +1,30 @@
+From fcfaee699b8f0c258462dc52306f94e8b34853b1 Mon Sep 17 00:00:00 2001
+From: Grace5921 <androidlover5842@gmail.com>
+Date: Sun, 9 Oct 2016 04:58:46 +0530
+Subject: [PATCH] add patch to use custom gcc
+
+Change-Id: Ie9f80ef10c4b1e9652cb6e585d92289cfa8d1260
+---
+ core/tasks/kernel.mk | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/core/tasks/kernel.mk b/core/tasks/kernel.mk
+index eedf6ca..d7ebe11 100644
+--- a/core/tasks/kernel.mk
++++ b/core/tasks/kernel.mk
+@@ -230,7 +230,11 @@ ifneq ($(USE_CCACHE),)
+     ccache := $(strip $(wildcard $(ccache)))
+ endif
+ 
+-KERNEL_CROSS_COMPILE := CROSS_COMPILE="$(ccache) $(KERNEL_TOOLCHAIN_PATH)"
++ifneq ($(TARGET_KERNEL_CUSTOM_TOOLCHAIN),)     
++    KERNEL_CROSS_COMPILE := CROSS_COMPILE="$(ccache) $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/$(TARGET_KERNEL_CUSTOM_TOOLCHAIN)/bin/arm-eabi-"      
++else
++	KERNEL_CROSS_COMPILE := CROSS_COMPILE="$(ccache) $(KERNEL_TOOLCHAIN_PATH)"
++endif
+ ccache =
+ 
+ define mv-modules
+-- 
+2.9.3
+

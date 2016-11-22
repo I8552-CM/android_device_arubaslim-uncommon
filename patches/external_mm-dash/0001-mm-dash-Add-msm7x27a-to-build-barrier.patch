@@ -1,0 +1,32 @@
+From d8c8a353cecf77183b3f3d3e7561a3505dee2f64 Mon Sep 17 00:00:00 2001
+From: Caio Oliveira <caiooliveirafarias0@gmail.com>
+Date: Fri, 13 May 2016 21:33:40 -0300
+Subject: [PATCH] mm-dash: Add msm7x27a to build barrier
+
+Change-Id: I8f905e7dfac473d3ce37acfc88bf38ff9fbc03c1
+Signed-off-by: Caio Oliveira <caiooliveirafarias0@gmail.com>
+---
+ Android.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index b5a436c..a275067 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -1,5 +1,5 @@
+ ifeq ($(strip $(BOARD_USES_QCOM_HARDWARE)), true)
+-ifneq ($(call is-board-platform-in-list,msm7x30 msm8660 msm8960),true)
++ifneq ($(call is-board-platform-in-list, msm7x27a msm7x30 msm8660 msm8960), true)
+ 
+ QCOM_MEDIA_ROOT := $(call my-dir)
+ ifneq ($(TARGET_DISABLE_DASH),true)
+@@ -9,5 +9,5 @@ include $(QCOM_MEDIA_ROOT)/QCMediaPlayer/native/Android.mk
+ include $(QCOM_MEDIA_ROOT)/dashplayer/Android.mk
+ endif
+ 
+-endif # msm7x30 msm8660 msm8960
++endif # msm7x27a msm7x30 msm8660 msm8960
+ endif # BOARD_USES_QCOM_HARDWARE
+-- 
+1.9.1
+

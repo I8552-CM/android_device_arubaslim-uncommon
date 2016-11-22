@@ -1,0 +1,33 @@
+From 5be40020d6df1d9fad419777ca1ea214506b5c91 Mon Sep 17 00:00:00 2001
+From: remittor <remittor@gmail.com>
+Date: Wed, 16 Dec 2015 11:43:41 +0300
+Subject: [PATCH] wifi: add support for custom Wi-Fi implementations
+
+---
+ wifi/Android.mk | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/wifi/Android.mk b/wifi/Android.mk
+index 7fa595c..1bff7d8 100644
+--- a/wifi/Android.mk
++++ b/wifi/Android.mk
+@@ -57,7 +57,15 @@ ifdef WIFI_FST_DRIVER_MODULE_NAME
+ LOCAL_CFLAGS += -DWIFI_FST_DRIVER_MODULE_NAME=\"$(WIFI_FST_DRIVER_MODULE_NAME)\"
+ endif
+ 
+-LOCAL_SRC_FILES += wifi/wifi.c wifi/wifi_fst.c
++ifeq ($(TARGET_CUSTOM_WIFI),)
++  LOCAL_SRC_FILES += wifi/wifi.c wifi/wifi_fst.c
++else
++  LOCAL_SRC_FILES += $(TARGET_CUSTOM_WIFI)
++endif
++
++ifdef WIFI_DRIVER_IFACE_NAME
++LOCAL_CFLAGS += -DWIFI_DRIVER_IFACE_NAME=\"$(WIFI_DRIVER_IFACE_NAME)\"
++endif
+ 
+ ifdef WPA_SUPPLICANT_VERSION
+ LOCAL_CFLAGS += -DLIBWPA_CLIENT_EXISTS
+-- 
+1.9.5.msysgit.0
+

@@ -1,0 +1,29 @@
+From 852a834bc15b6ddd4bbfa490ae91f778a2990eb6 Mon Sep 17 00:00:00 2001
+From: Marcin Chojnacki <marcinch7@gmail.com>
+Date: Sun, 10 Nov 2013 13:59:47 +0100
+Subject: [PATCH] linker: Avoid logcat spam with some blobs
+
+Many of pre-kitkat blobs would emit a "text relocations" warning which makes logcat completely unreadable.
+This commit will hide this warning to prevent it.
+
+Change-Id: I8f32b5bbfea33d732320b3ac29da6b0027fbd521
+---
+ linker/linker.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linker/linker.cpp b/linker/linker.cpp
+index bc40cf1..89b718c 100644
+--- a/linker/linker.cpp
++++ b/linker/linker.cpp
+@@ -3023,7 +3023,7 @@ bool soinfo::link_image(const soinfo_list_t& global_group, const soinfo_list_t&
+ #endif
+     // Make segments writable to allow text relocations to work properly. We will later call
+     // phdr_table_protect_segments() after all of them are applied and all constructors are run.
+-    DL_WARN("%s has text relocations. This is wasting memory and prevents "
++    DEBUG("%s has text relocations. This is wasting memory and prevents "
+             "security hardening. Please fix.", get_realpath());
+     if (phdr_table_unprotect_segments(phdr, phnum, load_bias) < 0) {
+       DL_ERR("can't unprotect loadable segments for \"%s\": %s",
+-- 
+1.9.1
+

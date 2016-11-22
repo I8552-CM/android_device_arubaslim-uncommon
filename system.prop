@@ -1,0 +1,139 @@
+#
+# RIL
+#
+ril.subscription.types=NV,RUIM
+rild.libpath=/system/lib/libril-qc-qmi-1.so
+rild.libargs=-d /dev/smd0
+
+persist.rild.nitz_plmn=
+persist.rild.nitz_long_ons_0=
+persist.rild.nitz_long_ons_1=
+persist.rild.nitz_long_ons_2=
+persist.rild.nitz_long_ons_3=
+persist.rild.nitz_short_ons_0=
+persist.rild.nitz_short_ons_1=
+persist.rild.nitz_short_ons_2=
+persist.rild.nitz_short_ons_3=
+
+DEVICE_PROVISIONED=1
+
+ro.multi.rild=true
+persist.multisim.config=dsds
+persist.radio.multisim.config=dsds
+persist.dsds.enabled=true
+
+ro.telephony.ril_class=JSRQualcommRIL
+ro.telephony.ril.v3=skippinpukcount,qcomdsds,simactivation
+ro.telephony.ril.config=skippinpukcount,qcomdsds,simactivation
+
+ro.ril.telephony.mqanelements=5
+
+# NETWORK_MODE: 3 = GSM/WCDMA (auto mode, according to PRL)
+ro.telephony.default_network=3
+
+# Fix Sim slot
+ro.ril.delay_0=1
+ro.ril.delay_1=2
+
+# Ril log
+ro.ril.extlog=1
+
+# CDMA subscription: 0 = RUIM, 1 = NV
+ro.telephony.default_cdma_sub=0
+
+ro.telephony.call_ring.multiple=false
+
+telephony.lteOnCdmaDevice=0
+#ro.cdma.factory=china
+#ro.cdma.subscribe_on_ruim_ready=true
+
+ro.use_data_netmgrd=true
+persist.data_netmgrd_nint=16
+persist.data.ds_fmc_app.mode=0
+
+persist.radio.apm_sim_not_pwdn=1
+persist.radio.mode_pref_nv10=1
+persist.radio.skip_data_check=1
+persist.radio.msgtunnel.start=false
+
+# System prop for sending transmit power request to RIL during WiFi hotspot on/off
+ro.ril.transmitpower=true
+
+# Headset hook delay in milli seconds
+headset.hook.delay=500
+
+# bluetooth
+ro.bluetooth.remote.autoconnect=true
+ro.bluetooth.request.master=true
+ro.bt.bdaddr_path=/data/misc/bluedroid/bdaddr
+ro.qualcomm.bluetooth.dun=true
+ro.qualcomm.bluetooth.ftp=true
+
+# CWM recovery
+ro.cwm.enable_key_repeat=true
+
+# Display
+debug.composition.type=dyn
+debug.hwc.dynThreshold=1.9
+persist.hwc.mdpcomp.enable=false
+debug.mdpcomp.logs=0
+debug.gralloc.map_fb_memory=1
+debug.hwc.fakevsync=1
+ro.max.fling_velocity=4000
+ro.opengles.version=131072
+ro.sf.lcd_density=240
+
+# Qualcomm speciefic
+com.qc.hardware=true
+dev.pm.dyn_sample_period=700000
+dev.pm.dyn_samplingrate=1
+ro.vendor.extension_library=/system/lib/libqc-opt.so
+
+# USB port
+persist.sys.usb.config=mtp,adb
+ro.vold.umsdirtyratio=30
+
+# WiFi Atheros 600x
+wifi.interface=wlan0
+ro.confg.hw_appfsversion=d9V4_4_SYSIMG
+ro.confg.hw_appsbootversion=d9V4_4_APPSBOOT
+ro.confg.hw_appversion=d9V4_4_KERNEL
+
+# FM Radio
+ro.fm.analogpath.supported=false
+ro.fm.transmitter=false
+ro.fm.mulinst.recording.support=false
+
+# Audio
+audio.gapless.playback.disable=true
+audio.offload.disable=1
+   
+# Stagefright
+media.stagefright.enable-player=true
+media.stagefright.enable-meta=false
+media.stagefright.enable-scan=true
+media.stagefright.enable-http=true
+media.stagefright.enable-fma2dp=true
+media.stagefright.enable-aac=true
+media.stagefright.enable-qcp=true
+
+# Media
+mm.enable.smoothstreaming=true
+
+# Newer camera API isn't supported.
+camera2.portability.force_api=1
+
+# Use ART small mode
+dalvik.vm.dex2oat-filter=balanced
+dalvik.vm.dex2oat-flags=--no-watch-dog
+dalvik.vm.image-dex2oat-filter=speed
+dalvik.vm.dex2oat-swap=false
+dalvik.vm.dex2oat-Xms=8m
+dalvik.vm.dex2oat-Xmx=96m
+dalvik.vm.image-dex2oat-Xms=48m
+dalvik.vm.image-dex2oat-Xmx=48m
+ro.ksm.default=1
+
+# Root
+persist.sys.root_access=3
+

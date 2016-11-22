@@ -1,0 +1,30 @@
+language: java
+install: travis_wait 60 mvn install
+
+before_script:
+- sudo apt-get install -y git-core gnupg flex bison gperf build-essential 
+  zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 
+  lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache 
+  libgl1-mesa-dev libxml2-utils xsltproc unzip maven schedtool &> /dev/null
+- mkdir ~/bin && PATH=~/bin:$PATH && echo 'PATH=~/bin:$PATH' >> ~/.bashrc && curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo && chmod a+x ~/bin/repo
+- mkdir ~/cm13/
+- git config --global user.email "androidlover5842@gmail.com" &> /dev/null
+- git config --global user.name "grace5921"  &> /dev/null
+- cd ~/cm13/ && repo init -u https://github.com/CyanogenMod/android.git -b cm-13.0 >> y ; echo
+- repo sync &> /dev/null
+- pwd
+
+script:
+- cd cm13
+- git clone https://github.com/I8552-CM/android_device_delos3geur.git device/samsung/delos3geur  &> /dev/null
+- git clone https://github.com/I8552-CM/android_kernel_arubaslim.git -b mm6.0 kernel/samsung/delos  &> /dev/null
+- git https://github.com/CM13-Y300/android_hardware_atheros_wlan.git hardware/atheros/wlan  &> /dev/null
+- rm -rf hardware/qcom/gps 
+- git https://github.com/CM13-Y300/android_hardware_qcom_gps.git hardware/qcom/gps &> /dev/null
+- git https://github.com/CM13-Y300/android_hardware_qcom_display-caf.git hardware/qcom/display-caf  &> /dev/null
+- git https://github.com/SlimLP-Y300/hardware_qcom_media.git hardware/qcom/media-caf &> /dev/null
+-  . build/envsetup.sh
+- lunch cm_delos3geur-userdebug
+- make -j4 bacon
+
+
