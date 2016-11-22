@@ -23,14 +23,14 @@
 USE_CAMERA_STUB := false
 
 # Inherit from the proprietary version
--include vendor/delos3geur/BoardConfigVendor.mk
+-include vendor/arubaslim/BoardConfigVendor.mk
 
-TARGET_SPECIFIC_HEADER_PATH := device/samsung/delos3geur/include
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/arubaslim/include
 
-BOARD_VENDOR := delos3geur
+BOARD_VENDOR := arubaslim
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := delos3geur,GT-I8552,I8552
+TARGET_OTA_ASSERT_DEVICE := arubaslim,GT-I8262,I8262
 
 # Compile sys
 #TARGET_GCC_VERSION_EXP := 4.8
@@ -68,8 +68,8 @@ ARCH_ARM_HIGH_OPTIMIZATION := true
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/samsung/delos3geur
-TARGET_KERNEL_CONFIG := delos_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/arubaslim
+TARGET_KERNEL_CONFIG := arubaslim_defconfig
 BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom androidboot.selinux=permissive hack_lcd=1 chg_hack_lcd=0
 BOARD_KERNEL_BASE := 0x00200000
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01300000
@@ -128,7 +128,7 @@ AUDIO_FEATURE_ENABLED_COMPRESS_VOIP := false
 AUDIO_FEATURE_ENABLED_PROXY_DEVICE := false
 USE_CUSTOM_AUDIO_POLICY := 1
 # Charger
-BOARD_CHARGER_RES := device/samsung/delos3geur/charger
+BOARD_CHARGER_RES := device/samsung/arubaslim/charger
 BOARD_BATTERY_DEVICE_NAME := "battery"
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_LPM_BOOT_ARGUMENT_NAME := androidboot.bootchg
@@ -173,10 +173,10 @@ BOARD_WANTS_EMMC_BOOT := true
 TARGET_RIL_VARIANT := legacy
 COMMON_GLOBAL_CFLAGS += -DRIL_SUPPORTS_SEEK
 COMMON_GLOBAL_CFLAGS += -DRIL_VARIANT_LEGACY
-BOARD_RIL_CLASS := ../../../device/samsung/delos3geur/ril/
+BOARD_RIL_CLASS := ../../../device/samsung/arubaslim/ril/
 
 # Hardware
-#BOARD_HARDWARE_CLASS := device/samsung/delos3geur/cmhw
+#BOARD_HARDWARE_CLASS := device/samsung/arubaslim/cmhw
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -188,7 +188,7 @@ COMMON_GLOBAL_CFLAGS += -DQCOM_NO_SECURE_PLAYBACK
 COMMON_GLOBAL_CFLAGS += -DLPA_DEFAULT_BUFFER_SIZE=480
 
 # SELinux
-BOARD_SEPOLICY_DIRS += device/samsung/delos3geur/sepolicy
+BOARD_SEPOLICY_DIRS += device/samsung/arubaslim/sepolicy
 
 ## Vold
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
@@ -204,8 +204,8 @@ BOARD_RECOVERY_SWIPE := true
 BOARD_SUPPRESS_EMMC_WIPE := true
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 DEVICE_RESOLUTION := 480x800
-#BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/delos3geur/recovery/graphics.c
-TARGET_RECOVERY_FSTAB := device/samsung/delos3geur/recovery/recovery.fstab
+#BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/arubaslim/recovery/graphics.c
+TARGET_RECOVERY_FSTAB := device/samsung/arubaslim/recovery/recovery.fstab
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
 # Wi-Fi CAF
