@@ -1,3 +1,13 @@
 # GPU device
-/dev/kgsl-3d0       u:object_r:gpu_device:s0
+/dev/kgsl-3d0            	u:object_r:gpu_device:s0
+#/init				u:r:init:s0
+/system/bin/rmt_storage		u:r:init:s0
+/system/bin/rmt_oeminfo		u:r:init:s0
+/system/bin/sensord      	u:r:init:s0                              
+/system/bin/netmgrd      	u:r:init:s0   
+/system/bin/oem_rpc_svc  	u:r:init:s0   
+/system/bin/qmuxd	 	u:r:init:s0   
+/system/bin/qosmgr		u:r:init:s0   
+/system/bin/hciattach	 	u:r:init:s0   
+/system/bin/mm-qcamera-daemon	u:r:init:s0   
 

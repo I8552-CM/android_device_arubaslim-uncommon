@@ -15,3 +15,5 @@ allow init system_data_file:file append;
 allow init system_file:file { execmod execute_no_trans };
 allow init tmpfs:lnk_file create;
 allow init video_device:chr_file { write ioctl };
+allow init self:file { execute execmod execute_no_trans };
+allow init media_rw_data_file:file { execute execmod };
