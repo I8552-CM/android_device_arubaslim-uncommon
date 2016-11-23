@@ -1,2 +1,3 @@
 #============= bootanim ==============
 allow bootanim kernel:system module_request;
+allow bootanim shell_data_file:dir search;
