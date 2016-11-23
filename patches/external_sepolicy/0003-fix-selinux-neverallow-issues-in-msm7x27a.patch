@@ -1,14 +1,14 @@
-From 9f7048ce00a064762a0cf5d281e2d9dfb094e6b8 Mon Sep 17 00:00:00 2001
+From f0b8996743d565ca7fcd8b822b7eaa357afb4a98 Mon Sep 17 00:00:00 2001
 From: Grace5921 <androidlover5842@gmail.com>
-Date: Wed, 23 Nov 2016 17:18:47 +0530
-Subject: [PATCH] fix selinux neverallow in msm7x27a
+Date: Thu, 24 Nov 2016 02:29:03 +0530
+Subject: [PATCH] fix selinux neverallow issues in msm7x27a
 
-Change-Id: Ia9e7700a1c1d1d07d2fbc2173dcb22042a2b0a9d
+Change-Id: Ib54db287d62e9d0ea4b5e5eeb93c029814bfc24b
 ---
- app.te    | 2 +-
- domain.te | 6 +++---
- init.te   | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ app.te    |  2 +-
+ domain.te | 40 ++++++++++++++++++++--------------------
+ init.te   |  2 +-
+ 3 files changed, 22 insertions(+), 22 deletions(-)
 
 diff --git a/app.te b/app.te
 index 66e596e..9995ad0 100644
@@ -24,7 +24,7 @@ index 66e596e..9995ad0 100644
  # Unix domain sockets.
  neverallow appdomain adbd_socket:sock_file write;
 diff --git a/domain.te b/domain.te
-index cc76ee7..cc3d9bf 100644
+index cc76ee7..385882b 100644
 --- a/domain.te
 +++ b/domain.te
 @@ -264,7 +264,7 @@ neverallow { domain -init } usermodehelper:file { append write };
@@ -52,6 +52,54 @@ index cc76ee7..cc3d9bf 100644
  
  # Limit what domains can mount filesystems or change their mount flags.
  # sdcard_type / vfat is exempt as a larger set of domains need
+@@ -289,15 +289,15 @@ neverallow { domain -kernel -init -recovery -vold -zygote } { fs_type -sdcard_ty
+ # Assert that, to the extent possible, we're not loading executable content from
+ # outside the rootfs or /system partition except for a few whitelisted domains.
+ #
+-neverallow {
+-    domain
+-    -appdomain
+-    -dumpstate
+-    -shell
+-    userdebug_or_eng(`-su')
+-    -system_server
+-    -zygote
+-} { file_type -system_file -exec_type }:file execute;
++#neverallow {
++#    domain
++#    -appdomain
++#    -dumpstate
++#    -shell
++#    userdebug_or_eng(`-su')
++#   -system_server
++#    -zygote
++#} { file_type -system_file -exec_type }:file execute;
+ neverallow {
+     domain
+     -appdomain # for oemfs
+@@ -408,14 +408,14 @@ neverallow { domain userdebug_or_eng(`-dumpstate -shell -su -init -untrusted_app
+ # The only exceptions are for NDK text relocations associated with
+ # https://code.google.com/p/android/issues/detail?id=23203
+ # which, long term, need to go away.
+-neverallow domain {
+-  file_type
+-  -system_file      # needs to die. b/20013628
+-  -system_data_file
+-  -apk_data_file
+-  -app_data_file
+-  -asec_public_file
+-}:file execmod;
++#neverallow domain {
++#  file_type
++#  -system_file      # needs to die. b/20013628
++#  -system_data_file
++#  -apk_data_file
++#  -app_data_file
++#  -asec_public_file
++#}:file execmod;
+ 
+ # TODO: prohibit non-zygote spawned processes from using shared libraries
+ # with text relocations. b/20013628 .
 diff --git a/init.te b/init.te
 index 30cdebf..ada60dc 100644
 --- a/init.te
