@@ -1,0 +1,3 @@
+#============= debuggerd ==============
+allow debuggerd init:process ptrace;
+allow debuggerd kernel:system module_request;

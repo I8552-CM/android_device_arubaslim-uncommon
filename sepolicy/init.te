@@ -1,0 +1,17 @@
+#============= init ==============
+allow init block_device:blk_file write;
+allow init debugfs:dir mounton;
+allow init devpts:chr_file { getattr ioctl };
+allow init gpu_device:chr_file { write ioctl };
+allow init kernel:system module_request;
+allow init property_socket:sock_file write;
+allow init self:netlink_route_socket { bind create };
+allow init self:netlink_socket { read bind create write };
+allow init self:socket { create ioctl };
+allow init shell_exec:file execute_no_trans;
+allow init socket_device:sock_file { write create unlink getattr setattr };
+allow init system_data_file:fifo_file write;
+allow init system_data_file:file append;
+allow init system_file:file { execmod execute_no_trans };
+allow init tmpfs:lnk_file create;
+allow init video_device:chr_file { write ioctl };

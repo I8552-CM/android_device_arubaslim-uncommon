@@ -1,0 +1,7 @@
+#============= mediaserver ==============
+allow mediaserver device:chr_file { read write ioctl open };
+allow mediaserver init:unix_dgram_socket sendto;
+allow mediaserver self:capability sys_nice;
+allow mediaserver system_data_file:sock_file write;
+allow mediaserver system_file:file execmod;
+

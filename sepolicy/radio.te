@@ -1,0 +1,2 @@
+#============= radio ==============
+allow radio socket_device:sock_file write;

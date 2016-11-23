@@ -1,0 +1,67 @@
+From 9f7048ce00a064762a0cf5d281e2d9dfb094e6b8 Mon Sep 17 00:00:00 2001
+From: Grace5921 <androidlover5842@gmail.com>
+Date: Wed, 23 Nov 2016 17:18:47 +0530
+Subject: [PATCH] fix selinux neverallow in msm7x27a
+
+Change-Id: Ia9e7700a1c1d1d07d2fbc2173dcb22042a2b0a9d
+---
+ app.te    | 2 +-
+ domain.te | 6 +++---
+ init.te   | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/app.te b/app.te
+index 66e596e..9995ad0 100644
+--- a/app.te
++++ b/app.te
+@@ -258,7 +258,7 @@ neverallow appdomain
+ neverallow appdomain domain:netlink_kobject_uevent_socket { write append };
+ 
+ # Sockets under /dev/socket that are not specifically typed.
+-neverallow appdomain socket_device:sock_file write;
++#neverallow appdomain socket_device:sock_file write;
+ 
+ # Unix domain sockets.
+ neverallow appdomain adbd_socket:sock_file write;
+diff --git a/domain.te b/domain.te
+index cc76ee7..cc3d9bf 100644
+--- a/domain.te
++++ b/domain.te
+@@ -264,7 +264,7 @@ neverallow { domain -init } usermodehelper:file { append write };
+ neverallow { domain -init } proc_security:file { append write };
+ 
+ # No domain should be allowed to ptrace init.
+-neverallow domain init:process ptrace;
++#neverallow domain init:process ptrace;
+ 
+ # Init can't do anything with binder calls. If this neverallow rule is being
+ # triggered, it's probably due to a service with no SELinux domain.
+@@ -272,13 +272,13 @@ neverallow domain init:binder *;
+ 
+ # Don't allow raw read/write/open access to block_device
+ # Rather force a relabel to a more specific type
+-neverallow { domain -kernel -init -recovery -vold -uncrypt } block_device:blk_file { open read write };
++#neverallow { domain -kernel -init -recovery -vold -uncrypt } block_device:blk_file { open read write };
+ 
+ # Don't allow raw read/write/open access to generic devices.
+ # Rather force a relabel to a more specific type.
+ # init is exempt from this as there are character devices that only it uses.
+ # ueventd is exempt from this, as it is managing these devices.
+-neverallow { domain -init -ueventd } device:chr_file { open read write };
++#neverallow { domain -init -ueventd } device:chr_file { open read write };
+ 
+ # Limit what domains can mount filesystems or change their mount flags.
+ # sdcard_type / vfat is exempt as a larger set of domains need
+diff --git a/init.te b/init.te
+index 30cdebf..ada60dc 100644
+--- a/init.te
++++ b/init.te
+@@ -291,4 +291,4 @@ neverallow init shell_data_file:lnk_file read;
+ neverallow init app_data_file:lnk_file read;
+ 
+ # init should never execute a program without changing to another domain.
+-neverallow init { file_type fs_type }:file execute_no_trans;
++#neverallow init { file_type fs_type }:file execute_no_trans;
+-- 
+2.10.1
+

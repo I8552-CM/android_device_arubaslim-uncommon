@@ -1,0 +1,9 @@
+#============= rild ==============
+allow rild device:chr_file { read write };
+allow rild socket_device:sock_file write;
+allow rild system_data_file:sock_file write;
+allow rild system_file:file execmod;
+allow rild device:chr_file open;
+allow rild socket_device:dir { write add_name };
+allow rild socket_device:sock_file { create setattr };
+
