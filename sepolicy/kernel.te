@@ -1,0 +1,3 @@
+allow kernel self:capability dac_override;
+allow kernel unlabeled:file read;
+

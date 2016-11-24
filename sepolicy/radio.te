@@ -1,2 +1,4 @@
 #============= radio ==============
 allow radio socket_device:sock_file write;
+allow radio shell_data_file:dir search;
+
