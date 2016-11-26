@@ -138,6 +138,7 @@ PRODUCT_COPY_FILES += frameworks/native/data/etc/handheld_core_hardware.xml:syst
 #PRODUCT_COPY_FILES += packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 PRODUCT_PACKAGES += frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
 PRODUCT_PACKAGES += frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml
+PRODUCT_COPY_FILES += device/samsung/arubaslim/configs/99googlelatinimefix:system/etc/init.d/99googlelatinimefix
 
 #$(call inherit-product, $(SRC_TARGET_DIR)/product/full.mk)
 
