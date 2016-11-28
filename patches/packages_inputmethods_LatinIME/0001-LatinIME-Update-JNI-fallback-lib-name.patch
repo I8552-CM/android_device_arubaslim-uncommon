@@ -1,0 +1,24 @@
+From d580e9780627bbabd8549bc92ae4758745dceba6 Mon Sep 17 00:00:00 2001
+From: ghsr <ghsr92@yandex.ru>
+Date: Thu, 5 May 2016 13:09:25 +0600
+Subject: [PATCH] LatinIME: Update JNI fallback lib name
+
+Change-Id: Ie4a11fb4470400198ff10ca0c3ef280f2392e070
+---
+ .../src/com/android/inputmethod/latin/define/JniLibName.java            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/java-overridable/src/com/android/inputmethod/latin/define/JniLibName.java b/java-overridable/src/com/android/inputmethod/latin/define/JniLibName.java
+index 83ed5eb..0fcf7ee 100644
+--- a/java-overridable/src/com/android/inputmethod/latin/define/JniLibName.java
++++ b/java-overridable/src/com/android/inputmethod/latin/define/JniLibName.java
+@@ -22,5 +22,5 @@ public final class JniLibName {
+     }
+ 
+     public static final String JNI_LIB_NAME = "jni_latinime";
+-    public static final String JNI_LIB_NAME2 = "jni_latinimegoogle";
++    public static final String JNI_LIB_NAME2 = "jni_unbundled_latinimegoogle";
+ }
+-- 
+2.10.1
+
