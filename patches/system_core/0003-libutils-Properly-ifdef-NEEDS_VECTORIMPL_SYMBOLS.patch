@@ -1,7 +1,7 @@
-From 6d94dc182c12ab2893a4d9469b0553580bc314f6 Mon Sep 17 00:00:00 2001
+From 0b9c60efdfef368f6e543f333dd078db6abe958f Mon Sep 17 00:00:00 2001
 From: Arne Coucheron <arco68@gmail.com>
 Date: Wed, 3 Dec 2014 06:14:55 +0100
-Subject: [PATCH 2/3] libutils: Properly #ifdef NEEDS_VECTORIMPL_SYMBOLS
+Subject: [PATCH 3/4] libutils: Properly #ifdef NEEDS_VECTORIMPL_SYMBOLS
 
  * Compile error might occur otherwise
 

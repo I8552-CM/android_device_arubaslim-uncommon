@@ -1,7 +1,7 @@
-From 5f2b2617b14c5ee8bd6110375bb2d780fe768890 Mon Sep 17 00:00:00 2001
+From 0d2591b9d8b0678b05a90835c0cfa1490050cd2b Mon Sep 17 00:00:00 2001
 From: Dave Burke <daveburke@google.com>
 Date: Wed, 24 Oct 2012 17:30:31 -0700
-Subject: [PATCH 1/3] Revert "Revert "put back the unused virtuals in
+Subject: [PATCH 2/4] Revert "Revert "put back the unused virtuals in
  Vector<>""
 
 This reverts commit 225c66a48cdc3acef21ee380dc134449749d3cb3

@@ -1,7 +1,7 @@
-From 0cf5c7fdabd5e44091f28bba442ec6b0bbaca8ba Mon Sep 17 00:00:00 2001
+From 635ea3e36ed7116546823a4d2f15438a434c1cfe Mon Sep 17 00:00:00 2001
 From: codeworkx <codeworkx@cyanogenmod.org>
 Date: Sat, 27 Jul 2013 08:18:42 +0200
-Subject: [PATCH 3/3] libutils: refbase: jellybean mr1 compat
+Subject: [PATCH 4/4] libutils: refbase: jellybean mr1 compat
 
 [mikeioannina]: Update for L
 Can be enabled with global cflag REFBASE_JB_MR1_COMPAT_SYMBOLS
