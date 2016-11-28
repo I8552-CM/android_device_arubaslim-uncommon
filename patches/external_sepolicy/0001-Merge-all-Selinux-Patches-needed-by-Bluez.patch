@@ -1,7 +1,7 @@
-From a1161a558b829556ad51fc3b43acab69518fab0a Mon Sep 17 00:00:00 2001
+From 590b99326081521535f56912974691f1dc0fd1bc Mon Sep 17 00:00:00 2001
 From: Grace5921 <androidlover5842@gmail.com>
 Date: Mon, 10 Oct 2016 06:11:20 +0530
-Subject: [PATCH] merge all external_sepolicy patches
+Subject: [PATCH] Merge all Selinux Patches needed by Bluez
 
 Change-Id: If3204ea57cee6369d84e5ee41f1465b56291693a
 ---
@@ -121,7 +121,7 @@ index d964f9b..89bfa7f 100644
  /mnt/media_rw(/.*)?         u:object_r:mnt_media_rw_file:s0
  /mnt/user(/.*)?             u:object_r:mnt_user_file:s0
 diff --git a/init.te b/init.te
-index 779a0f0..30cdebf 100644
+index 80883e6..ada60dc 100644
 --- a/init.te
 +++ b/init.te
 @@ -73,7 +73,7 @@ allow init self:capability dac_override;
@@ -134,5 +134,5 @@ index 779a0f0..30cdebf 100644
  # Mounting filesystems from block devices.
  allow init dev_type:blk_file r_file_perms;
 -- 
-2.9.3
+2.10.1
 
