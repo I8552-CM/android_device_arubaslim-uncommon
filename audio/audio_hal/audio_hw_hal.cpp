@@ -185,17 +185,17 @@ static int out_get_render_position(const struct audio_stream_out *stream,
     const struct qcom_stream_out *out =
         reinterpret_cast<const struct qcom_stream_out *>(stream);
     return out->qcom_out->setObserver(observer);
-}*/
+}
 
-/*static int out_get_buffer_info(const struct audio_stream_out *stream,
+static int out_get_buffer_info(const struct audio_stream_out *stream,
                                    //buf_info ** buf)
 {
     const struct qcom_stream_out *out =
         reinterpret_cast<const struct qcom_stream_out *>(stream);
     return out->qcom_out->getBufferInfo(buf);
 }
-*/
-/*static int out_is_buffer_available(const struct audio_stream_out *stream,
+
+static int out_is_buffer_available(const struct audio_stream_out *stream,
                                    int *isAvail)
 {
     const struct qcom_stream_out *out =
@@ -229,8 +229,8 @@ static status_t out_stop(struct audio_stream_out *stream)
     struct qcom_stream_out *out =
         reinterpret_cast<struct qcom_stream_out *>(stream);
     return out->qcom_out->stop();
-}
-*/
+}*/
+
 static int out_add_audio_effect(const struct audio_stream *stream, effect_handle_t effect)
 {
     return 0;
@@ -247,14 +247,6 @@ static int out_get_next_write_timestamp(const struct audio_stream_out *stream,
     const struct qcom_stream_out *out =
         reinterpret_cast<const struct qcom_stream_out *>(stream);
     return out->qcom_out->getNextWriteTimestamp(timestamp);
-}
-
-static int out_get_presentation_position(const struct audio_stream_out *stream,
-                                         uint64_t *frames, struct timespec *timestamp)
-{
-    const struct qcom_stream_out *out =
-        reinterpret_cast<const struct qcom_stream_out *>(stream);
-    return out->qcom_out->getPresentationPosition(frames, timestamp);
 }
 
 /** audio_stream_in implementation **/
@@ -466,7 +458,6 @@ static size_t adev_get_input_buffer_size(const struct audio_hw_device *dev,
     return qadev->hwif->getInputBufferSize(config->sample_rate,config->format,channelCount);
 }
 
-
 static int adev_open_output_stream(struct audio_hw_device *dev,
                                    audio_io_handle_t handle,
                                    audio_devices_t devices,
@@ -512,15 +503,14 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
     out->stream.write = out_write;
     out->stream.get_render_position = out_get_render_position;
     out->stream.get_next_write_timestamp = out_get_next_write_timestamp;
-    out->stream.get_presentation_position = out_get_presentation_position;
-    //out->stream.start = out_start;
-/*    out->stream.pause = out_pause;
+    /*out->stream.start = out_start;
+    out->stream.pause = out_pause;
     out->stream.flush = out_flush;
-    //out->stream.stop = out_stop;
-    //out->stream.set_observer = out_set_observer;
-    //out->stream.get_buffer_info = out_get_buffer_info;
-    //out->stream.is_buffer_available = out_is_buffer_available;
-*/
+    out->stream.stop = out_stop;
+    out->stream.set_observer = out_set_observer;
+    out->stream.get_buffer_info = out_get_buffer_info;
+    out->stream.is_buffer_available = out_is_buffer_available;*/
+
     *stream_out = &out->stream;
     return 0;
 
