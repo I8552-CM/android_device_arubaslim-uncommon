@@ -3192,8 +3192,8 @@ status_t AudioHardware::AudioStreamInMSM72xx::set(
     if ((pFormat == 0) ||
         ((*pFormat != AUDIO_HW_IN_FORMAT) &&
          (*pFormat != AUDIO_FORMAT_AMR_NB) &&
-         //(*pFormat != AUDIO_FORMAT_EVRC) &&
-         //(*pFormat != AUDIO_FORMAT_QCELP) &&
+         (*pFormat != AUDIO_FORMAT_EVRC) &&
+         (*pFormat != AUDIO_FORMAT_QCELP) &&
          (*pFormat != AUDIO_FORMAT_AAC)))
     {
         *pFormat = AUDIO_HW_IN_FORMAT;
@@ -3284,9 +3284,9 @@ status_t AudioHardware::AudioStreamInMSM72xx::set(
     mSampleRate = config.sample_rate;
     mBufferSize = config.buffer_size;
     }
-    else if( (*pFormat == AUDIO_FORMAT_AMR_NB)) //||
-             //(*pFormat == AUDIO_FORMAT_EVRC) ||
-             //(*pFormat == AUDIO_FORMAT_QCELP))
+    else if( (*pFormat == AUDIO_FORMAT_AMR_NB)||
+             (*pFormat == AUDIO_FORMAT_EVRC) ||
+             (*pFormat == AUDIO_FORMAT_QCELP))
            {
 
       // open vocie memo input device
@@ -3348,7 +3348,7 @@ status_t AudioHardware::AudioStreamInMSM72xx::set(
           break;
         }
 
-        /*case AUDIO_FORMAT_EVRC:
+        case AUDIO_FORMAT_EVRC:
         {
           ALOGI("Recording Format: EVRC");
           gcfg.capability = RPC_VOC_CAP_IS127;
@@ -3371,7 +3371,7 @@ status_t AudioHardware::AudioStreamInMSM72xx::set(
           mBufferSize = 350;
           break;
         }
-        */
+        
         default:
         break;
       }
