@@ -181,9 +181,6 @@ BOARD_RIL_CLASS := ../../../device/samsung/arubaslim/ril/
 # Hardware
 #BOARD_HARDWARE_CLASS := device/samsung/arubaslim/cmhw
 
-# Lights
-TARGET_PROVIDES_LIBLIGHT := true
-
 # SELinux
 BOARD_SEPOLICY_DIRS += device/samsung/arubaslim/sepolicy
 
